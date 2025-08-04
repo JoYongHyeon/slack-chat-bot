@@ -1,6 +1,6 @@
 # Plani Slack Bot (플랜아이 슬랙봇)
 
-[![Java](https://img.shields.io/badge/Java-17-b07219.svg)](https://www.java.com)
+[![Java](https://img.shields.io/badge/Java-21-b07219.svg)](https://www.java.com)
 [![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.x-6db33f.svg)](https://spring.io/projects/spring-boot)
 [![Gradle](https://img.shields.io/badge/Gradle-8.x-02303a.svg)](https://gradle.org)
 [![Architecture](https://img.shields.io/badge/Architecture-Hexagonal-blueviolet)](https://alistair.cockburn.us/hexagonal-architecture/)
