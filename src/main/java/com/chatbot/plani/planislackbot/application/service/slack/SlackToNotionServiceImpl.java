@@ -1,10 +1,12 @@
 package com.chatbot.plani.planislackbot.application.service.slack;
 
+import com.chatbot.plani.planislackbot.adapter.in.web.slack.dto.SlackBlockActionDTO;
 import com.chatbot.plani.planislackbot.adapter.in.web.slack.dto.SlackEventCallbackDTO;
 import com.chatbot.plani.planislackbot.adapter.out.notion.NotionSearchResultDTO;
 import com.chatbot.plani.planislackbot.application.assembler.SlackEventAssembler;
 import com.chatbot.plani.planislackbot.application.dispatcher.NotionCommandDispatcher;
 import com.chatbot.plani.planislackbot.application.port.in.BotCommand;
+import com.chatbot.plani.planislackbot.application.port.in.NotionInteractionHandler;
 import com.chatbot.plani.planislackbot.domain.notion.enums.NotionDbIntent;
 import com.chatbot.plani.planislackbot.domain.slack.enums.ServiceIntent;
 import com.chatbot.plani.planislackbot.domain.slack.vo.SlackCommandVO;
@@ -25,6 +27,7 @@ public class SlackToNotionServiceImpl implements BotCommand {
 
     private final NotionCommandDispatcher notionCommandDispatcher;
 
+
     @Override
     public ServiceIntent getServiceIntent() {
         return ServiceIntent.NOTION;
@@ -37,12 +40,12 @@ public class SlackToNotionServiceImpl implements BotCommand {
     }
 
     @Override
-    public ResponseEntity<String> interaction(SlackEventCallbackDTO slackEvent) {
-        return null;
+    public void interaction(SlackBlockActionDTO slackAction, String actionId) {
+        notionCommandDispatcher.dispatchInteraction(slackAction, actionId);
     }
 
     @Override
-    public ResponseEntity<String> command(Map<String, String> params) {
+    public ResponseEntity<String> slash(Map<String, String> params) {
         return null;
     }
 }

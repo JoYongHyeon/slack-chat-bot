@@ -1,7 +1,7 @@
 package com.chatbot.plani.planislackbot.application.port.out.openai.keyword;
 
 
-import com.chatbot.plani.planislackbot.global.dto.IntentResultDTO;
+import com.chatbot.plani.planislackbot.domain.slack.vo.IntentResultVO;
 
 /**
  * 자연어 입력 → Notion/서비스 특화 쿼리 및 인텐트 추출 포트
@@ -24,5 +24,5 @@ public interface KeywordExtractionPort {
      * @param text 자연어 입력 (예: "노션에서 7월 회의 보여줘")
      * @return IntentResult("notion", "meeting")
      */
-    IntentResultDTO extractServiceIntent(String text);
+    IntentResultVO extractServiceIntent(String text);
 }

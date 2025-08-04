@@ -3,16 +3,14 @@ package com.chatbot.plani.planislackbot.application.dispatcher;
 import com.chatbot.plani.planislackbot.adapter.in.web.slack.dto.SlackBlockActionDTO;
 import com.chatbot.plani.planislackbot.adapter.in.web.slack.dto.SlackEventCallbackDTO;
 import com.chatbot.plani.planislackbot.application.port.in.BotCommand;
-import com.chatbot.plani.planislackbot.application.port.in.NotionInteractionHandler;
 import com.chatbot.plani.planislackbot.application.port.out.openai.keyword.KeywordExtractionPort;
-import com.chatbot.plani.planislackbot.application.service.slack.handler.interaction.MeetingSummaryInteractionHandler;
 import com.chatbot.plani.planislackbot.domain.slack.enums.ServiceIntent;
-import com.chatbot.plani.planislackbot.global.dto.IntentResultDTO;
+import com.chatbot.plani.planislackbot.domain.slack.vo.IntentResultVO;
 import com.chatbot.plani.planislackbot.global.util.JsonUtil;
 import com.chatbot.plani.planislackbot.global.util.LogTimerUtil;
+import com.chatbot.plani.planislackbot.global.util.StringUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -30,28 +28,13 @@ import static com.chatbot.plani.planislackbot.global.util.constant.CommonConstan
  * - Slack에는 즉시 OK 응답, 후속 응답은 핸들러가 직접 처리
  */
 @Service
+@RequiredArgsConstructor
 public class SlackCommandDispatcher {
 
     private final Map<ServiceIntent, BotCommand> serviceMap;
     private final KeywordExtractionPort keywordExtractionPort;
     private final Executor slackToNotionExecutor;
     private final ObjectMapper objectMapper;
-    private final Map<String, NotionInteractionHandler> interactionHandlerMap;
-
-    public SlackCommandDispatcher(
-            Map<ServiceIntent, BotCommand> serviceMap,
-            KeywordExtractionPort keywordExtractionPort,
-            Executor slackToNotionExecutor,
-            ObjectMapper objectMapper,
-            @Qualifier("interactionHandlerMap")
-            Map<String, NotionInteractionHandler> interactionHandlerMap
-    ) {
-        this.serviceMap = serviceMap;
-        this.keywordExtractionPort = keywordExtractionPort;
-        this.slackToNotionExecutor = slackToNotionExecutor;
-        this.objectMapper = objectMapper;
-        this.interactionHandlerMap = interactionHandlerMap;
-    }
 
     /**
      * 1차 intent(서비스)별 분기/위임 처리
@@ -64,8 +47,8 @@ public class SlackCommandDispatcher {
                 .orElse("");
 
         // 2. OpenAI 로 1,2차 Intent 동시 추출 (JSON 반환)
-        IntentResultDTO intentResultDTO = keywordExtractionPort.extractServiceIntent(text);
-        ServiceIntent serviceIntent = ServiceIntent.fromString(intentResultDTO.service());
+        IntentResultVO intentResultVO = keywordExtractionPort.extractServiceIntent(text);
+        ServiceIntent serviceIntent = ServiceIntent.fromString(intentResultVO.service());
 
         // 3. 서비스 intent로 구현체 찾아서 실제 처리 위임
         BotCommand handler = serviceMap.get(serviceIntent);
@@ -74,7 +57,7 @@ public class SlackCommandDispatcher {
             // 슬랙은 즉시 OK 응답, 실제 처리는 비동기로 실행
             slackToNotionExecutor.execute(() ->
                     LogTimerUtil.runWithTiming("슬랙 이벤트",
-                        () -> handler.handleEvent(slackEvent, intentResultDTO.intent())));
+                            () -> handler.handleEvent(slackEvent, intentResultVO.intent())));
         }
 
         return ResponseEntity.ok(ERROR_UNSUPPORTED_REQUEST);
@@ -90,31 +73,35 @@ public class SlackCommandDispatcher {
      */
     public ResponseEntity<String> routeInteraction(String payload) {
 
-        // 1. payload → DTO 파싱
         SlackBlockActionDTO dto = JsonUtil.toObject(payload, SlackBlockActionDTO.class, objectMapper);
 
-        // 2. action_id 추출
+        // 1. action_id 추출
         String actionId = Optional.ofNullable(dto)
                 .map(d -> d.actions().getFirst())
                 .map(SlackBlockActionDTO.Action::actionId)
                 .orElse(null);
 
-        // 3. action_id에 맞는 핸들러 조회
-        NotionInteractionHandler handler = interactionHandlerMap.get(actionId);
+        // 2. action_id에 맞는 핸들러 조회
+        return StringUtil.parseServiceIntent(actionId)
+                .map(intentResultVO -> {
+                    ServiceIntent serviceIntent = ServiceIntent.fromString(intentResultVO.service());
+                    BotCommand handler = serviceMap.get(serviceIntent);
 
-        if (handler != null) {
-            slackToNotionExecutor.execute(() ->
-                    LogTimerUtil.runWithTiming("슬랙 인터랙션",
-                        () -> handler.handleInteraction(dto)));
-        }
-
-        return ResponseEntity.ok(ERROR_UNSUPPORTED_REQUEST);
+                    if (handler != null) {
+                        slackToNotionExecutor.execute(() -> {
+                            LogTimerUtil.runWithTiming("슬랙 인터랙션",
+                                    () -> handler.interaction(dto, actionId));
+                        });
+                    }
+                    return ResponseEntity.ok(ERROR_UNSUPPORTED_REQUEST);
+                })
+                .orElseGet(() -> ResponseEntity.ok(ERROR_UNSUPPORTED_REQUEST));
     }
 
     /**
      * Slack 슬래시 커맨드(/search 등) 분기 처리
      */
-    public ResponseEntity<String> routeCommand(Map<String, String> params) {
+    public ResponseEntity<String> routeSlash(Map<String, String> params) {
         return null;
     }
 }

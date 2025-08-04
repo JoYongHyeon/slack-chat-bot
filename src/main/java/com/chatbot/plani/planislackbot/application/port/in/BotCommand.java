@@ -1,8 +1,8 @@
 package com.chatbot.plani.planislackbot.application.port.in;
 
+import com.chatbot.plani.planislackbot.adapter.in.web.slack.dto.SlackBlockActionDTO;
 import com.chatbot.plani.planislackbot.adapter.in.web.slack.dto.SlackEventCallbackDTO;
 import com.chatbot.plani.planislackbot.domain.slack.enums.ServiceIntent;
-import jdk.jfr.Description;
 import org.springframework.http.ResponseEntity;
 
 import java.util.Map;
@@ -28,13 +28,17 @@ public interface BotCommand {
 
     /**
      * 슬랙 인터랙션(버튼 클릭 등) 처리
-     * @param slackEvent 인터랙션 DTO
      */
-    ResponseEntity<String> interaction(SlackEventCallbackDTO slackEvent);
+    /**
+     *
+     * @param slackAction -> 슬랙에서 받은 값
+     * @param actionId -> notion:summarize_page 의 두번 째 값 (actionId 값)
+     */
+    void interaction(SlackBlockActionDTO slackAction, String actionId);
 
     /**
      * 커맨드(슬래시 명령 등) 처리
      * @param params 커맨드 파라미터 맵
      */
-    ResponseEntity<String> command(Map<String, String> params);
+    ResponseEntity<String> slash(Map<String, String> params);
 }

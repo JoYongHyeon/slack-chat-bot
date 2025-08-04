@@ -4,6 +4,7 @@ import com.chatbot.plani.planislackbot.adapter.out.notion.NotionSearchResultDTO;
 import com.chatbot.plani.planislackbot.application.port.out.slack.SlackSendPort;
 import com.chatbot.plani.planislackbot.global.util.slack.SlackBlockUtil;
 import com.slack.api.Slack;
+import com.slack.api.methods.response.chat.ChatUpdateResponse;
 import com.slack.api.model.block.DividerBlock;
 import com.slack.api.model.block.LayoutBlock;
 import com.slack.api.model.block.SectionBlock;
@@ -77,6 +78,19 @@ public class SlackSendAdapter implements SlackSendPort {
         } catch (Exception e) {
             // 블록 메시지 전송 실패 시 안내 메시지 전송
             sendText(channel, ERROR_SEND_SUMMARIZE);
+        }
+    }
+
+    @Override
+    public void updateText(String channel, String ts, String text) {
+        try {
+            Slack.getInstance().methods(botToken)
+                    .chatUpdate(req -> req
+                            .channel(channel)
+                            .ts(ts)
+                            .text(text));
+        } catch (Exception e) {
+            sendText(channel, ERROR_UPDATE_TEXT);
         }
     }
 }

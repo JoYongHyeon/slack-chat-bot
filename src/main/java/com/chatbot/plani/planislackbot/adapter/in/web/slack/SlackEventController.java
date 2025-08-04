@@ -50,6 +50,6 @@ public class SlackEventController {
      */
     @PostMapping("/command")
     public ResponseEntity<String> command(@RequestParam Map<String, String> params) {
-        return slackDispatcher.routeCommand(params);
+        return slackDispatcher.routeSlash(params);
     }
 }

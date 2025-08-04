@@ -20,4 +20,13 @@ public interface SlackSendPort {
      * @param results 노션 검색 결과 목록
      */
     void sendBlocks(String channel, List<NotionSearchResultDTO> results);
+
+
+    /**
+     * 기존 메시지 업데이트
+     * @param channel 채널 ID
+     * @param ts 메시지 타임스탬프
+     * @param text 새로운 텍스트
+     */
+    void updateText(String channel, String ts, String text);
 }
