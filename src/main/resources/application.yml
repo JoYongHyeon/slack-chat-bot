@@ -1,0 +1,10 @@
+server:
+  port: 8088
+
+spring:
+  profiles:
+    active: local
+  application:
+    name: plani-slack-bot
+
+
