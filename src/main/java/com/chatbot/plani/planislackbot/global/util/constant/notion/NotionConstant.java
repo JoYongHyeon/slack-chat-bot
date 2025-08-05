@@ -4,6 +4,7 @@ public class NotionConstant {
 
     // 공통
     public static final String ERROR_NOTION_TITLE = "제목없음";
+    public static final String ERROR_DATABASE_ID = "지원하지 않는 데이터베이스 ID 입니다.";
 
     // Notion 내에서 사용하는 필드명 상수 모음
     public static final String NOTION_TITLE = "title";

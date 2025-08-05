@@ -3,6 +3,7 @@ package com.chatbot.plani.planislackbot.application.dispatcher;
 import com.chatbot.plani.planislackbot.adapter.in.web.slack.dto.SlackBlockActionDTO;
 import com.chatbot.plani.planislackbot.adapter.in.web.slack.dto.SlackEventCallbackDTO;
 import com.chatbot.plani.planislackbot.application.port.in.BotCommand;
+import com.chatbot.plani.planislackbot.application.port.out.openai.intent.ExtractServiceIntentPort;
 import com.chatbot.plani.planislackbot.application.port.out.openai.keyword.KeywordExtractionPort;
 import com.chatbot.plani.planislackbot.domain.slack.enums.ServiceIntent;
 import com.chatbot.plani.planislackbot.domain.slack.vo.IntentResultVO;
@@ -32,7 +33,7 @@ import static com.chatbot.plani.planislackbot.global.util.constant.CommonConstan
 public class SlackCommandDispatcher {
 
     private final Map<ServiceIntent, BotCommand> serviceMap;
-    private final KeywordExtractionPort keywordExtractionPort;
+    private final ExtractServiceIntentPort extractServiceIntentPort;
     private final Executor slackToNotionExecutor;
     private final ObjectMapper objectMapper;
 
@@ -47,7 +48,7 @@ public class SlackCommandDispatcher {
                 .orElse("");
 
         // 2. OpenAI 로 1,2차 Intent 동시 추출 (JSON 반환)
-        IntentResultVO intentResultVO = keywordExtractionPort.extractServiceIntent(text);
+        IntentResultVO intentResultVO = extractServiceIntentPort.extractServiceIntent(text);
         ServiceIntent serviceIntent = ServiceIntent.fromString(intentResultVO.service());
 
         // 3. 서비스 intent로 구현체 찾아서 실제 처리 위임

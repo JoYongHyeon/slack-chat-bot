@@ -3,6 +3,7 @@ package com.chatbot.plani.planislackbot.global.config.slack;
 import com.chatbot.plani.planislackbot.application.port.in.BotCommand;
 import com.chatbot.plani.planislackbot.application.port.in.NotionEventHandler;
 import com.chatbot.plani.planislackbot.application.port.in.NotionInteractionHandler;
+import com.chatbot.plani.planislackbot.application.port.out.openai.keyword.KeywordExtractionPort;
 import com.chatbot.plani.planislackbot.domain.notion.enums.NotionDbIntent;
 import com.chatbot.plani.planislackbot.domain.slack.enums.ServiceIntent;
 import org.springframework.context.annotation.Bean;
@@ -56,6 +57,27 @@ public class HandlerMapConfig {
         return handlers.stream()
                 .collect(Collectors.toMap(
                         NotionInteractionHandler::getActionId,
+                        Function.identity()
+                ));
+    }
+
+    /**
+     * KeywordExtractionPort 구현체 맵 (DB별 분기용)
+     *
+     * - DB별로 서로 다른 프롬프트/파싱 전략이 필요한 경우,
+     *   각 DatabaseId(예: meetingId, memberId 등)를 key로 하여
+     *   해당 Database에 맞는 KeywordExtractionPort 구현체를 선택적으로 사용.
+     *
+     * - NotionSearchAdapter 등에서 databaseId에 따라
+     *   알맞은 KeywordExtractionPort를 선택해 자연어 → 쿼리 변환을 위임할 때 사용.
+     *
+     * 예) keywordExtractionPortMap.get(meetingId).extractNotionQuery(...)
+     */
+    @Bean
+    public Map<String, KeywordExtractionPort> keywordExtractionPortMap(List<KeywordExtractionPort> ports) {
+        return ports.stream()
+                .collect(Collectors.toMap(
+                        KeywordExtractionPort::getDatabaseId,
                         Function.identity()
                 ));
     }

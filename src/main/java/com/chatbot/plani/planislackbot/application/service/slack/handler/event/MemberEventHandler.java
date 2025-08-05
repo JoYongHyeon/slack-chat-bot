@@ -41,10 +41,12 @@ public class MemberEventHandler implements NotionEventHandler {
         String dbId = notionDatabaseProperties.memberId();
 
         // 3. Notion 페이지 검색
+        // search 에서 모든 작업 끝내야 함
         List<NotionSearchResultDTO> searchResults = notionSearchPort.search(commandVO.keyword(), dbId);
         if (notionEventHandlerHelper.emptySearchResult(searchResults, slackSendPort, commandVO.channel())) return;
 
         // 4. 검색 결과 전송
+        // block UI 새로 만들어야함
         slackSendPort.sendBlocks(commandVO.channel(), searchResults);
     }
 }

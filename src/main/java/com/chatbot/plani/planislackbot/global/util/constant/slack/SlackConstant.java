@@ -20,7 +20,7 @@ public class SlackConstant {
     public static final String SUMMARIZE_ACTION_ID = "notion:summarize_page";
 
 
-    // 사용자 아내/에러 등 모든 슬랙 메시지 상수 관리
+    // 사용자 안내/에러 등 모든 슬랙 메시지 상수 관리
     public static final String ERROR_KEYWORD = "키워드를 입력해 주세요.";
     public static final String ERROR_NO_SUCH_NOTION_PAGE = "관련된 노션 페이지를 찾을 수 없습니다.";
     public static final String ERROR_SEND_SUMMARIZE = "⚠️요약 처리 중 오류가 발생했습니다.";

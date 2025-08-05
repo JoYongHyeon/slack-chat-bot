@@ -26,7 +26,7 @@ public class NotionFilterUtil {
      * @param property Notion 데이터베이스 컬럼명
      * @param value    검색 값 (날짜, 텍스트, 선택 등)
      */
-    public static List<PropertyFilter> buildPropertyFilters(String property, String value) {
+    public static List<PropertyFilter> buildMeetingFilters(String property, String value) {
 
         return switch (property) {
             case MEETING_DATE      -> buildDateFilters(value);
@@ -37,6 +37,25 @@ public class NotionFilterUtil {
             case MEETING_ATTENDEES -> buildMultiSelectFilters(property, value);
             case MEETING_TITLE,
                  MEETING_TIME      -> buildTextFilters(property, value);
+            default -> List.of();
+        };
+    }
+
+    /**
+     * 컬럼명과 값에 따라 적절한 Notion PropertyFilter 리스트를 생성
+     *
+     * @param property Notion 데이터베이스 컬럼명
+     * @param value    검색 값 (날짜, 텍스트, 선택 등)
+     */
+    public static List<PropertyFilter> buildMemberFilters(String property, String value) {
+        return switch (property) {
+            case MEMBER_NAME,
+                 MEMBER_EMAIL,
+                 MEMBER_CONTACT,
+                 MEMBER_EXTENSION -> buildTextFilters(property, value);
+            case MEMBER_TEAM,
+                 MEMBER_ROLE      -> buildSelectFilters(property, value);
+            case MEMBER_JOIN_DATE -> buildDateFilters(value);
             default -> List.of();
         };
     }
@@ -146,5 +165,8 @@ public class NotionFilterUtil {
     }
     // ========== 날짜 조건 세부 생성 메서드 =============================================
 
+    /**
+     * 이메일
+     */
 
 }

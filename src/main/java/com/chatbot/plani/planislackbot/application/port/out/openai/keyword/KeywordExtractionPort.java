@@ -1,28 +1,35 @@
 package com.chatbot.plani.planislackbot.application.port.out.openai.keyword;
 
 
-import com.chatbot.plani.planislackbot.domain.slack.vo.IntentResultVO;
+import notion.api.v1.model.databases.query.filter.PropertyFilter;
+
+import java.util.List;
+import java.util.Map;
 
 /**
- * 자연어 입력 → Notion/서비스 특화 쿼리 및 인텐트 추출 포트
- *
- * - 오픈AI 등 LLM을 활용해 슬랙 등에서 받은 자연어 명령을 구조화/분류한다.
- * - 향후 다양한 명령어 추출 패턴 추가에 유연하게 대응할 수 있음.
+ * - 슬랙 등에서 입력된 자연어 명령을 각 DB에 맞는 쿼리(JSON) 또는 인텐트로 구조화
+ * - DB 타입별 구현체(Adapter) 확장 가능 (OCP)
  */
 public interface KeywordExtractionPort {
 
+    /**
+     * 이 포트 구현체가 담당하는 Notion DB ID 반환
+     * (ex: 회의DB, 멤버DB 등)
+     */
+    String getDatabaseId();
 
     /**
-     * OpenAI를 이용해 노션 DB용 쿼리(필터/정렬 조건 등) 생성
-     * @param text 자연어 명령어 (예: "7월 완료된 회의 목록")
-     * @return JSON 또는 텍스트 형태 쿼리 (예: {"날짜":"2025-07-01~2025-07-31","상태":"완료"})
+     * 자연어 명령어를 Notion DB 쿼리(JSON)로 변환
+     * (예: "7월 완료된 회의" → {"날짜":"2025-07-01~2025-07-31","상태":"완료"})
      */
     String extractNotionQuery(String text);
 
     /**
-     * 자연어 명령어에서 1차(서비스), 2차(세부 intent)를 추출
-     * @param text 자연어 입력 (예: "노션에서 7월 회의 보여줘")
-     * @return IntentResult("notion", "meeting")
+     * 쿼리(JSON 파싱 결과)에서 Notion API용 PropertyFilter 리스트 생성
+     * - DB 컬럼/타입에 따라 각 구현체에서 적합한 필터 생성 로직을 제공
+     *
+     * @param conditions JSON 파싱된 필터 조건 Map
+     * @return Notion API에 사용할 PropertyFilter 리스트
      */
-    IntentResultVO extractServiceIntent(String text);
+    List<PropertyFilter> buildFilters(Map<String, String> conditions);
 }
