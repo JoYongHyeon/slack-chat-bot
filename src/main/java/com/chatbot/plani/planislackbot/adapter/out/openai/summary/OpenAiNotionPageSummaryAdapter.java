@@ -2,7 +2,7 @@ package com.chatbot.plani.planislackbot.adapter.out.openai.summary;
 
 import com.chatbot.plani.planislackbot.application.port.out.openai.summary.OpenAiNotionPageSummaryPort;
 import com.chatbot.plani.planislackbot.global.util.notion.NotionBlockUtil;
-import com.chatbot.plani.planislackbot.global.util.notion.OpenAiChatHelper;
+import com.chatbot.plani.planislackbot.global.util.notion.helper.OpenAiChatHelper;
 import lombok.RequiredArgsConstructor;
 import notion.api.v1.NotionClient;
 import notion.api.v1.model.blocks.Block;

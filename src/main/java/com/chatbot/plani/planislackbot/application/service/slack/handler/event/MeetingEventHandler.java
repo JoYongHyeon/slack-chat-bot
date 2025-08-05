@@ -7,15 +7,13 @@ import com.chatbot.plani.planislackbot.application.port.out.slack.SlackSendPort;
 import com.chatbot.plani.planislackbot.domain.notion.enums.NotionDbIntent;
 import com.chatbot.plani.planislackbot.domain.slack.vo.SlackCommandVO;
 import com.chatbot.plani.planislackbot.global.config.notion.NotionDatabaseProperties;
-import com.chatbot.plani.planislackbot.global.util.StringUtil;
-import com.chatbot.plani.planislackbot.global.util.notion.NotionSearchUtil;
+import com.chatbot.plani.planislackbot.global.util.notion.helper.NotionEventHandlerHelper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static com.chatbot.plani.planislackbot.global.util.constant.slack.SlackConstant.*;
 
 /**
  * [Notion::회의록] 명령어 핸들러
@@ -32,6 +30,7 @@ public class MeetingEventHandler implements NotionEventHandler {
     private final NotionSearchPort notionSearchPort;
     private final SlackSendPort slackSendPort;
     private final NotionDatabaseProperties notionDatabaseProperties;
+    private final NotionEventHandlerHelper notionEventHandlerHelper;
 
     @Override
     public NotionDbIntent getDbIntent() {
@@ -40,27 +39,17 @@ public class MeetingEventHandler implements NotionEventHandler {
 
     @Override
     public void handle(SlackCommandVO commandVO) {
-        if (commandVO == null) {
-            // TODO: 모든 로그 공통 처리 필요
-            log.error("[{}] : {}", ERROR_UNKNOWN_CHANEL, this.getClass().getName());
-            return;
-        }
 
-        // 1. 빈 키워드 처리
-        if (StringUtil.isEmpty(commandVO.keyword())) {
-            slackSendPort.sendText(commandVO.channel(), ERROR_KEYWORD);
-            return;
-        }
+        // 1. 명령 / 키워드 / 검색결과 체크는 helper 에서 담당 (문제시 return)
+        if (notionEventHandlerHelper.invalidCommand(commandVO, this.getClass().getName())) return;
+        if (notionEventHandlerHelper.emptyKeyword(commandVO, slackSendPort)) return;
 
         // 2. 회의록 DB ID 를 설정에서 바로 꺼내 전달
         String dbId = notionDatabaseProperties.meetingId();
 
         // 3. Notion 페이지 검색
         List<NotionSearchResultDTO> searchResults = notionSearchPort.search(commandVO.keyword(), dbId);
-        if (NotionSearchUtil.isEmpty(searchResults)) {
-            slackSendPort.sendText(commandVO.channel(), ERROR_NO_SUCH_NOTION_PAGE);
-            return;
-        }
+        if (notionEventHandlerHelper.emptySearchResult(searchResults, slackSendPort, commandVO.channel())) return;
 
         // 4. 검색 결과 전송
         slackSendPort.sendBlocks(commandVO.channel(), searchResults);

@@ -4,7 +4,7 @@ import com.chatbot.plani.planislackbot.application.port.out.openai.keyword.Keywo
 import com.chatbot.plani.planislackbot.domain.slack.vo.IntentResultVO;
 import com.chatbot.plani.planislackbot.global.util.JsonUtil;
 import com.chatbot.plani.planislackbot.global.util.StringUtil;
-import com.chatbot.plani.planislackbot.global.util.notion.OpenAiChatHelper;
+import com.chatbot.plani.planislackbot.global.util.notion.helper.OpenAiChatHelper;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jdk.jfr.Description;
 import lombok.RequiredArgsConstructor;

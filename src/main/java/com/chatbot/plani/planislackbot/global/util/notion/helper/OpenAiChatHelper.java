@@ -1,4 +1,4 @@
-package com.chatbot.plani.planislackbot.global.util.notion;
+package com.chatbot.plani.planislackbot.global.util.notion.helper;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.ai.chat.ChatResponse;

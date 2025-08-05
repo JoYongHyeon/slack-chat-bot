@@ -3,6 +3,8 @@ package com.chatbot.plani.planislackbot.application.port.in;
 import com.chatbot.plani.planislackbot.domain.notion.enums.NotionDbIntent;
 import com.chatbot.plani.planislackbot.domain.slack.vo.SlackCommandVO;
 
+
+// TODO: 추상클래스와 인터페이스 중 어떤 선택이 더 옳은 선택인지 모든 기능 구현 후 확인해볼 필요!!!
 /**
  * Notion의 intent 별 처리 핸들러 인터페이스
  *
