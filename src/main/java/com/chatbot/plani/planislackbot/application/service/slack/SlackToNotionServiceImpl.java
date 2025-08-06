@@ -2,21 +2,15 @@ package com.chatbot.plani.planislackbot.application.service.slack;
 
 import com.chatbot.plani.planislackbot.adapter.in.web.slack.dto.SlackBlockActionDTO;
 import com.chatbot.plani.planislackbot.adapter.in.web.slack.dto.SlackEventCallbackDTO;
-import com.chatbot.plani.planislackbot.adapter.out.notion.NotionSearchResultDTO;
-import com.chatbot.plani.planislackbot.application.assembler.SlackEventAssembler;
 import com.chatbot.plani.planislackbot.application.dispatcher.NotionCommandDispatcher;
 import com.chatbot.plani.planislackbot.application.port.in.BotCommand;
-import com.chatbot.plani.planislackbot.application.port.in.NotionInteractionHandler;
 import com.chatbot.plani.planislackbot.domain.notion.enums.NotionDbIntent;
 import com.chatbot.plani.planislackbot.domain.slack.enums.ServiceIntent;
-import com.chatbot.plani.planislackbot.domain.slack.vo.SlackCommandVO;
-import com.chatbot.plani.planislackbot.global.util.StringUtil;
 import jdk.jfr.Description;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Map;
 
 

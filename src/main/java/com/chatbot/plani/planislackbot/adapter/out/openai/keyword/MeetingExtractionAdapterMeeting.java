@@ -1,6 +1,6 @@
 package com.chatbot.plani.planislackbot.adapter.out.openai.keyword;
 
-import com.chatbot.plani.planislackbot.application.port.out.openai.keyword.KeywordExtractionPort;
+import com.chatbot.plani.planislackbot.application.port.out.openai.keyword.MeetingKeywordExtractionPort;
 import com.chatbot.plani.planislackbot.global.config.notion.NotionDatabaseProperties;
 import com.chatbot.plani.planislackbot.global.util.StringUtil;
 import com.chatbot.plani.planislackbot.global.util.notion.NotionFilterUtil;
@@ -15,15 +15,9 @@ import java.util.Map;
 
 @Component
 @RequiredArgsConstructor
-public class MeetingExtractionAdapter implements KeywordExtractionPort {
+public class MeetingExtractionAdapterMeeting implements MeetingKeywordExtractionPort {
 
     private final OpenAiChatHelper openAiChatHelper;
-    private final NotionDatabaseProperties notionDatabaseProperties;
-
-    @Override
-    public String getDatabaseId() {
-        return notionDatabaseProperties.meetingId();
-    }
 
     @Override
     public String extractNotionQuery(String text) {

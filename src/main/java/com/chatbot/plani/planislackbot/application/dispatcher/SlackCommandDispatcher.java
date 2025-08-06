@@ -4,7 +4,6 @@ import com.chatbot.plani.planislackbot.adapter.in.web.slack.dto.SlackBlockAction
 import com.chatbot.plani.planislackbot.adapter.in.web.slack.dto.SlackEventCallbackDTO;
 import com.chatbot.plani.planislackbot.application.port.in.BotCommand;
 import com.chatbot.plani.planislackbot.application.port.out.openai.intent.ExtractServiceIntentPort;
-import com.chatbot.plani.planislackbot.application.port.out.openai.keyword.KeywordExtractionPort;
 import com.chatbot.plani.planislackbot.domain.slack.enums.ServiceIntent;
 import com.chatbot.plani.planislackbot.domain.slack.vo.IntentResultVO;
 import com.chatbot.plani.planislackbot.global.util.JsonUtil;

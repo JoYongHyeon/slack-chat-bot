@@ -1,7 +1,8 @@
 package com.chatbot.plani.planislackbot.global.util.notion;
 
-import com.chatbot.plani.planislackbot.adapter.out.notion.NotionSearchResultDTO;
+import com.chatbot.plani.planislackbot.adapter.out.notion.dto.MeetingSearchResultDTO;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -14,7 +15,11 @@ public class NotionSearchUtil {
     /**
      * 검색 결과가 비어있는지 확인
      */
-    public static boolean isEmpty(List<NotionSearchResultDTO> results) {
+    public static boolean isEmpty(Collection<?> results) {
         return results == null || results.isEmpty();
+    }
+
+    public static boolean isNotEmpty(Collection<?> results) {
+        return results != null && !results.isEmpty();
     }
 }

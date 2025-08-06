@@ -1,9 +1,14 @@
 package com.chatbot.plani.planislackbot.application.port.out.slack;
 
-import com.chatbot.plani.planislackbot.adapter.out.notion.NotionSearchResultDTO;
+import com.chatbot.plani.planislackbot.domain.notion.enums.NotionDbIntent;
+import com.slack.api.model.block.LayoutBlock;
 
+import java.util.Collection;
 import java.util.List;
 
+/**
+ * Slack 메시지 전송용 포트 – 어댑터에서 직접 사용
+ */
 public interface SlackSendPort {
 
     /**
@@ -17,16 +22,10 @@ public interface SlackSendPort {
     /**
      * Slack 채널에 노션 검색 결과(리스트)를 블록 메시지로 전송
      * @param channel Slack 채널 ID
-     * @param results 노션 검색 결과 목록
      */
-    void sendBlocks(String channel, List<NotionSearchResultDTO> results);
+    void sendBlocks(String channel, List<LayoutBlock> blocks, String message);
 
 
-    /**
-     * 기존 메시지 업데이트
-     * @param channel 채널 ID
-     * @param ts 메시지 타임스탬프
-     * @param text 새로운 텍스트
-     */
-    void updateText(String channel, String ts, String text);
+    void sendNotionSearchResult(String channel, NotionDbIntent notionDbIntent, Collection<?> results);
+
 }

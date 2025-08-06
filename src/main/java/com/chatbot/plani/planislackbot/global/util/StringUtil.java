@@ -20,6 +20,10 @@ public class StringUtil {
         return s == null || s.isEmpty();
     }
 
+    public static String isEmptyHyphen(String s) {
+        return s == null ? "-" : s;
+    }
+
     /**
      * 문자열이 null도 아니고, 공백도 아니면 true를 반환합니다.
      *

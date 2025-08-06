@@ -1,8 +1,8 @@
 package com.chatbot.plani.planislackbot.application.service.slack.handler.event;
 
-import com.chatbot.plani.planislackbot.adapter.out.notion.NotionSearchResultDTO;
+import com.chatbot.plani.planislackbot.adapter.out.notion.dto.MeetingSearchResultDTO;
 import com.chatbot.plani.planislackbot.application.port.in.NotionEventHandler;
-import com.chatbot.plani.planislackbot.application.port.out.notion.NotionSearchPort;
+import com.chatbot.plani.planislackbot.application.port.out.notion.search.MeetingSearchPort;
 import com.chatbot.plani.planislackbot.application.port.out.slack.SlackSendPort;
 import com.chatbot.plani.planislackbot.domain.notion.enums.NotionDbIntent;
 import com.chatbot.plani.planislackbot.domain.slack.vo.SlackCommandVO;
@@ -27,7 +27,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MeetingEventHandler implements NotionEventHandler {
 
-    private final NotionSearchPort notionSearchPort;
+    private final MeetingSearchPort meetingSearchPort;
     private final SlackSendPort slackSendPort;
     private final NotionDatabaseProperties notionDatabaseProperties;
     private final NotionEventHandlerHelper notionEventHandlerHelper;
@@ -48,10 +48,10 @@ public class MeetingEventHandler implements NotionEventHandler {
         String dbId = notionDatabaseProperties.meetingId();
 
         // 3. Notion 페이지 검색
-        List<NotionSearchResultDTO> searchResults = notionSearchPort.search(commandVO.keyword(), dbId);
+        List<MeetingSearchResultDTO> searchResults = meetingSearchPort.search(commandVO.keyword(), dbId);
         if (notionEventHandlerHelper.emptySearchResult(searchResults, slackSendPort, commandVO.channel())) return;
 
         // 4. 검색 결과 전송
-        slackSendPort.sendBlocks(commandVO.channel(), searchResults);
+        slackSendPort.sendNotionSearchResult(commandVO.channel(), getDbIntent(), searchResults);
     }
 }

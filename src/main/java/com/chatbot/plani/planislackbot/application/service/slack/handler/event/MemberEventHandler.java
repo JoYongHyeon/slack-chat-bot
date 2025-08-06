@@ -1,8 +1,9 @@
 package com.chatbot.plani.planislackbot.application.service.slack.handler.event;
 
-import com.chatbot.plani.planislackbot.adapter.out.notion.NotionSearchResultDTO;
+import com.chatbot.plani.planislackbot.adapter.out.notion.dto.MemberSearchResultDTO;
 import com.chatbot.plani.planislackbot.application.port.in.NotionEventHandler;
-import com.chatbot.plani.planislackbot.application.port.out.notion.NotionSearchPort;
+import com.chatbot.plani.planislackbot.application.port.out.notion.search.MeetingSearchPort;
+import com.chatbot.plani.planislackbot.application.port.out.notion.search.MemberSearchPort;
 import com.chatbot.plani.planislackbot.application.port.out.slack.SlackSendPort;
 import com.chatbot.plani.planislackbot.domain.notion.enums.NotionDbIntent;
 import com.chatbot.plani.planislackbot.domain.slack.vo.SlackCommandVO;
@@ -15,12 +16,19 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 
+/**
+ * [Notion::회의록] 명령어 핸들러
+ *
+ * - 슬랙에서 전달받은 명령을 해석해 Notion 회의록 DB 검색
+ * - 결과를 Slack 메시지(블록 UI)로 전송
+ * - 입력 검증/에러는 헬퍼에서 처리
+ */
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class MemberEventHandler implements NotionEventHandler {
 
-    private final NotionSearchPort notionSearchPort;
+    private final MemberSearchPort memberSearchPort;
     private final SlackSendPort slackSendPort;
     private final NotionDatabaseProperties notionDatabaseProperties;
     private final NotionEventHandlerHelper notionEventHandlerHelper;
@@ -41,12 +49,10 @@ public class MemberEventHandler implements NotionEventHandler {
         String dbId = notionDatabaseProperties.memberId();
 
         // 3. Notion 페이지 검색
-        // search 에서 모든 작업 끝내야 함
-        List<NotionSearchResultDTO> searchResults = notionSearchPort.search(commandVO.keyword(), dbId);
+        List<MemberSearchResultDTO> searchResults = memberSearchPort.search(commandVO.keyword(), dbId);
         if (notionEventHandlerHelper.emptySearchResult(searchResults, slackSendPort, commandVO.channel())) return;
 
         // 4. 검색 결과 전송
-        // block UI 새로 만들어야함
-        slackSendPort.sendBlocks(commandVO.channel(), searchResults);
+        slackSendPort.sendNotionSearchResult(commandVO.channel(), getDbIntent(), searchResults);
     }
 }

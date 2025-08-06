@@ -24,7 +24,9 @@ public class SlackConstant {
     public static final String ERROR_KEYWORD = "키워드를 입력해 주세요.";
     public static final String ERROR_NO_SUCH_NOTION_PAGE = "관련된 노션 페이지를 찾을 수 없습니다.";
     public static final String ERROR_SEND_SUMMARIZE = "⚠️요약 처리 중 오류가 발생했습니다.";
+    public static final String ERROR_SEND_MESSAGE = "메시지 전송 중 오류가 발생했습니다.";
     public static final String ERROR_UNSUPPORTED_COMMAND = "지원하지 않는 커맨드입니다.";
+    public static final String ERROR_UNSUPPORTED_TYPE = "지원하지 않는 타입입니다.";
     public static final String ERROR_UNKNOWN_CHANEL = "지원하지 않는 채널입니다.";
     public static final String ERROR_UPDATE_TEXT = "텍스트 업데이트 중 오류가 발생했습니다.";
     // Block 및 버튼
@@ -32,4 +34,5 @@ public class SlackConstant {
 
     // 검색 결과 안내 메시지(포맷)🔍
     public static final String SEARCH_RESULT_MEETING_TEMPLATE = "*🔍총 %d건의 회의가 검색되었습니다.*";
+    public static final String SEARCH_RESULT_MEMBER_TEMPLATE = "*🔍총 %d건의 멤버가 검색되었습니다.*";
 }
