@@ -1,5 +1,6 @@
 package com.chatbot.plani.planislackbot.global.util.slack;
 
+import com.chatbot.plani.planislackbot.adapter.out.notion.dto.DocumentSearchResultDTO;
 import com.chatbot.plani.planislackbot.adapter.out.notion.dto.MeetingSearchResultDTO;
 import com.chatbot.plani.planislackbot.adapter.out.notion.dto.MemberSearchResultDTO;
 import com.chatbot.plani.planislackbot.global.util.StringUtil;
@@ -66,6 +67,11 @@ public class SlackBlockUtil {
         return SectionBlock.builder()
                 .text(MarkdownTextObject.builder().text(member).build())
                 .build();
+    }
+
+    public static LayoutBlock documentSectionBlock(DocumentSearchResultDTO resultDTO) {
+
+        return null;
     }
 
     /**

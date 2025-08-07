@@ -25,7 +25,17 @@ public interface SlackSendPort {
      */
     void sendBlocks(String channel, List<LayoutBlock> blocks, String message);
 
-
+    /**
+     * Notion 검색 결과(DTO 리스트)를 intent별로 적절한 Slack 블록 메시지로 변환해 채널로 전송합니다.
+     * <p>
+     * - intent(MEETING, MEMBER 등)에 따라 각기 다른 메시지 레이아웃을 적용합니다.
+     * - 실패/미지원 intent 시 에러 메시지를 대신 전송합니다.
+     * </p>
+     *
+     * @param channel         Slack 채널 ID
+     * @param notionDbIntent  Notion 검색 타입 (예: MEETING, MEMBER)
+     * @param results         검색 결과 DTO 컬렉션
+     */
     void sendNotionSearchResult(String channel, NotionDbIntent notionDbIntent, Collection<?> results);
 
 }

@@ -35,4 +35,5 @@ public class SlackConstant {
     // 검색 결과 안내 메시지(포맷)🔍
     public static final String SEARCH_RESULT_MEETING_TEMPLATE = "*🔍총 %d건의 회의가 검색되었습니다.*";
     public static final String SEARCH_RESULT_MEMBER_TEMPLATE = "*🔍총 %d건의 멤버가 검색되었습니다.*";
+    public static final String SEARCH_RESULT_DOCUMENT_TEMPLATE = "*🔍총 %d건의 문서가 검색되었습니다.*";
 }
