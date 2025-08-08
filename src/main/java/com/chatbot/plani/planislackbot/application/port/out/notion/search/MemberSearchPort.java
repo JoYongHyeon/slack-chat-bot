@@ -1,6 +1,6 @@
 package com.chatbot.plani.planislackbot.application.port.out.notion.search;
 
-import com.chatbot.plani.planislackbot.adapter.out.notion.dto.MemberSearchResultDTO;
+import com.chatbot.plani.planislackbot.adapter.out.notion.dto.search.MemberSearchResultDTO;
 
 import java.util.List;
 

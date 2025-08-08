@@ -1,9 +1,6 @@
 package com.chatbot.plani.planislackbot.global.util.notion;
 
-import com.chatbot.plani.planislackbot.adapter.out.notion.dto.MeetingSearchResultDTO;
-
 import java.util.Collection;
-import java.util.List;
 
 /**
  * Notion 검색 관련 유틸

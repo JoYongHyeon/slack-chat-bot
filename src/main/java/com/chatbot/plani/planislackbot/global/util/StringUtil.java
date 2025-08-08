@@ -1,11 +1,12 @@
 package com.chatbot.plani.planislackbot.global.util;
 
 import com.chatbot.plani.planislackbot.domain.slack.vo.IntentResultVO;
-import jdk.jfr.Description;
 
 import java.util.Optional;
 
-@Description("String 관련 유틸")
+/**
+ * String 관련 유틸
+ */
 public class StringUtil {
 
     private StringUtil() {}

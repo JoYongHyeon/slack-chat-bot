@@ -1,4 +1,4 @@
-package com.chatbot.plani.planislackbot.adapter.out.notion.dto;
+package com.chatbot.plani.planislackbot.adapter.out.notion.dto.search;
 
 public record MeetingSearchResultDTO(
         String pageId,

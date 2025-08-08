@@ -1,7 +1,7 @@
-package com.chatbot.plani.planislackbot.adapter.out.notion;
+package com.chatbot.plani.planislackbot.adapter.out.notion.search;
 
 import com.chatbot.plani.planislackbot.adapter.out.notion.base.AbstractEventSearchAdapter;
-import com.chatbot.plani.planislackbot.adapter.out.notion.dto.MemberSearchResultDTO;
+import com.chatbot.plani.planislackbot.adapter.out.notion.dto.search.MemberSearchResultDTO;
 import com.chatbot.plani.planislackbot.application.port.out.notion.search.MemberSearchPort;
 import com.chatbot.plani.planislackbot.application.port.out.openai.keyword.MemberKeywordExtractionPort;
 import com.chatbot.plani.planislackbot.global.util.notion.NotionPageUtil;

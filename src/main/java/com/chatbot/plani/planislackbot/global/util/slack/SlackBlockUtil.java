@@ -1,17 +1,14 @@
 package com.chatbot.plani.planislackbot.global.util.slack;
 
-import com.chatbot.plani.planislackbot.adapter.out.notion.dto.DocumentSearchResultDTO;
-import com.chatbot.plani.planislackbot.adapter.out.notion.dto.MeetingSearchResultDTO;
-import com.chatbot.plani.planislackbot.adapter.out.notion.dto.MemberSearchResultDTO;
+import com.chatbot.plani.planislackbot.adapter.out.notion.dto.search.DocumentSearchResultDTO;
+import com.chatbot.plani.planislackbot.adapter.out.notion.dto.search.MeetingSearchResultDTO;
+import com.chatbot.plani.planislackbot.adapter.out.notion.dto.search.MemberSearchResultDTO;
 import com.chatbot.plani.planislackbot.global.util.StringUtil;
 import com.slack.api.model.block.LayoutBlock;
 import com.slack.api.model.block.SectionBlock;
 import com.slack.api.model.block.composition.MarkdownTextObject;
 import com.slack.api.model.block.composition.PlainTextObject;
 import com.slack.api.model.block.element.ButtonElement;
-import org.stringtemplate.v4.ST;
-
-import java.util.List;
 
 import static com.chatbot.plani.planislackbot.global.util.constant.slack.SlackConstant.*;
 
@@ -38,6 +35,8 @@ public class SlackBlockUtil {
         ButtonElement summarizeButton = ButtonElement.builder()
                 .text(PlainTextObject.builder().text(BTN_SUMMARIZE).build())
                 .url(resultDTO.url())
+                .actionId(SUMMARIZE_ACTION_ID)
+                .value(resultDTO.pageId())
                 .build();
 
         return SectionBlock.builder()
@@ -80,6 +79,8 @@ public class SlackBlockUtil {
         ButtonElement downloadButton = ButtonElement.builder()
                 .text(PlainTextObject.builder().text(BTN_DOCUMENT_DOWNLOAD).build())
                 .url(resultDTO.url())
+                .actionId(DOCUMENT_DOWNLOAD_ACTION_ID)
+                .value(resultDTO.pageId())
                 .build();
 
         return SectionBlock.builder()

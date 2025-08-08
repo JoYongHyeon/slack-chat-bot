@@ -7,8 +7,6 @@ import com.chatbot.plani.planislackbot.application.port.in.NotionEventHandler;
 import com.chatbot.plani.planislackbot.application.port.in.NotionInteractionHandler;
 import com.chatbot.plani.planislackbot.domain.notion.enums.NotionDbIntent;
 import com.chatbot.plani.planislackbot.domain.slack.vo.SlackCommandVO;
-import jdk.jfr.Description;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 

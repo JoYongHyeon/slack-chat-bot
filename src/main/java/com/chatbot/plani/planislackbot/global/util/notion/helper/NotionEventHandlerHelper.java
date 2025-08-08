@@ -1,7 +1,6 @@
 package com.chatbot.plani.planislackbot.global.util.notion.helper;
 
 
-import com.chatbot.plani.planislackbot.adapter.out.notion.dto.MeetingSearchResultDTO;
 import com.chatbot.plani.planislackbot.application.port.out.slack.SlackSendPort;
 import com.chatbot.plani.planislackbot.domain.slack.vo.SlackCommandVO;
 import com.chatbot.plani.planislackbot.global.util.StringUtil;
@@ -10,7 +9,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
-import java.util.List;
 
 import static com.chatbot.plani.planislackbot.global.util.constant.slack.SlackConstant.*;
 

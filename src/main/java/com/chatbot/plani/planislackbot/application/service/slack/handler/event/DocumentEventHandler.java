@@ -1,6 +1,6 @@
 package com.chatbot.plani.planislackbot.application.service.slack.handler.event;
 
-import com.chatbot.plani.planislackbot.adapter.out.notion.dto.DocumentSearchResultDTO;
+import com.chatbot.plani.planislackbot.adapter.out.notion.dto.search.DocumentSearchResultDTO;
 import com.chatbot.plani.planislackbot.application.port.in.NotionEventHandler;
 import com.chatbot.plani.planislackbot.application.port.out.notion.search.DocumentSearchPort;
 import com.chatbot.plani.planislackbot.application.port.out.slack.SlackSendPort;

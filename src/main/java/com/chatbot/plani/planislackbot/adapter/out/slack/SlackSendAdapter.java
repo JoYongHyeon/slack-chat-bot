@@ -1,8 +1,8 @@
 package com.chatbot.plani.planislackbot.adapter.out.slack;
 
-import com.chatbot.plani.planislackbot.adapter.out.notion.dto.DocumentSearchResultDTO;
-import com.chatbot.plani.planislackbot.adapter.out.notion.dto.MeetingSearchResultDTO;
-import com.chatbot.plani.planislackbot.adapter.out.notion.dto.MemberSearchResultDTO;
+import com.chatbot.plani.planislackbot.adapter.out.notion.dto.search.DocumentSearchResultDTO;
+import com.chatbot.plani.planislackbot.adapter.out.notion.dto.search.MeetingSearchResultDTO;
+import com.chatbot.plani.planislackbot.adapter.out.notion.dto.search.MemberSearchResultDTO;
 import com.chatbot.plani.planislackbot.application.port.out.slack.SlackSendPort;
 import com.chatbot.plani.planislackbot.domain.notion.enums.NotionDbIntent;
 import com.chatbot.plani.planislackbot.global.util.slack.SlackBlockUtil;

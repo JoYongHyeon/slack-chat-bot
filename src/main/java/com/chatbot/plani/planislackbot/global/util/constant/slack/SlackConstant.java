@@ -18,12 +18,14 @@ public class SlackConstant {
      * ex) "요약하기" 버튼 action_id -> summarize_page
      */
     public static final String SUMMARIZE_ACTION_ID = "notion:summarize_page";
+    public static final String DOCUMENT_DOWNLOAD_ACTION_ID = "notion:document_download";
 
 
     // 사용자 안내/에러 등 모든 슬랙 메시지 상수 관리
     public static final String ERROR_KEYWORD = "키워드를 입력해 주세요.";
     public static final String ERROR_NO_SUCH_NOTION_PAGE = "관련된 노션 페이지를 찾을 수 없습니다.";
     public static final String ERROR_SEND_SUMMARIZE = "⚠️요약 처리 중 오류가 발생했습니다.";
+    public static final String ERROR_FAIL_DOWNLOAD_DOCUMENT = "⚠️문서 다운로드 중 오류가 발생했습니다.";
     public static final String ERROR_SEND_MESSAGE = "메시지 전송 중 오류가 발생했습니다.";
     public static final String ERROR_UNSUPPORTED_COMMAND = "지원하지 않는 커맨드입니다.";
     public static final String ERROR_UNSUPPORTED_TYPE = "지원하지 않는 타입입니다.";
@@ -37,4 +39,6 @@ public class SlackConstant {
     public static final String SEARCH_RESULT_MEETING_TEMPLATE = "*🔍총 %d건의 회의가 검색되었습니다.*";
     public static final String SEARCH_RESULT_MEMBER_TEMPLATE = "*🔍총 %d건의 멤버가 검색되었습니다.*";
     public static final String SEARCH_RESULT_DOCUMENT_TEMPLATE = "*🔍총 %d건의 문서가 검색되었습니다.*";
+
+    public static final String FILE_DOWNLOAD_LINK_TEMPLATE ="📄 *%s* 파일을 다운로드하려면 아래 링크를 클릭하세요:\n%s";
 }

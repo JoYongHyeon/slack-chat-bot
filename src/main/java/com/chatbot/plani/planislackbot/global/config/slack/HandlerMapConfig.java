@@ -59,25 +59,4 @@ public class HandlerMapConfig {
                         Function.identity()
                 ));
     }
-
-    /**
-     * MeetingKeywordExtractionPort 구현체 맵 (DB별 분기용)
-     *
-     * - DB별로 서로 다른 프롬프트/파싱 전략이 필요한 경우,
-     *   각 DatabaseId(예: meetingId, memberId 등)를 key로 하여
-     *   해당 Database에 맞는 MeetingKeywordExtractionPort 구현체를 선택적으로 사용.
-     *
-     * - MeetingEventSearchAdapter 등에서 databaseId에 따라
-     *   알맞은 KeywordExtractionPort를 선택해 자연어 → 쿼리 변환을 위임할 때 사용.
-     *
-     * 예) keywordExtractionPortMap.get(meetingId).extractNotionQuery(...)
-     */
-//    @Bean
-//    public Map<String, MeetingKeywordExtractionPort> keywordExtractionPortMap(List<MeetingKeywordExtractionPort> ports) {
-//        return ports.stream()
-//                .collect(Collectors.toMap(
-//                        MeetingKeywordExtractionPort::getDatabaseId,
-//                        Function.identity()
-//                ));
-//    }
 }
