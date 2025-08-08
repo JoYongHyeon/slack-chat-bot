@@ -4,6 +4,7 @@ import com.chatbot.plani.planislackbot.adapter.out.notion.base.AbstractEventSear
 import com.chatbot.plani.planislackbot.adapter.out.notion.dto.DocumentSearchResultDTO;
 import com.chatbot.plani.planislackbot.application.port.out.notion.search.DocumentSearchPort;
 import com.chatbot.plani.planislackbot.application.port.out.openai.keyword.DocumentKeywordExtractionPort;
+import com.chatbot.plani.planislackbot.global.util.notion.NotionPageUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import notion.api.v1.NotionClient;
 import notion.api.v1.model.databases.query.filter.PropertyFilter;
@@ -12,6 +13,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Map;
+
+import static com.chatbot.plani.planislackbot.global.util.constant.notion.NotionConstant.*;
 
 /**
  * [Adapter] Notion 문서 DB 검색 어댑터.
@@ -35,11 +38,21 @@ public class DocumentEventSearchAdapter
 
     @Override
     protected List<PropertyFilter> buildFilters(Map<String, String> conditions) {
-        return List.of();
+        return extractionPort.buildFilters(conditions);
     }
 
     @Override
     protected DocumentSearchResultDTO mapPageToDto(Page page) {
-        return null;
+        return new DocumentSearchResultDTO(
+                page.getId(),
+                page.getUrl(),
+                NotionPageUtil.getPropertyText(page, DOCUMENT_FILE_NAME),
+                NotionPageUtil.getPropertyText(page, DOCUMENT_PROJECT),
+                NotionPageUtil.getPropertyText(page, DOCUMENT_CATEGORY),
+                NotionPageUtil.getPropertyText(page, DOCUMENT_UPLOAD_DATE),
+                NotionPageUtil.getPropertyText(page, DOCUMENT_UPLOADER),
+                NotionPageUtil.getPropertyText(page, DOCUMENT_STATUS),
+                NotionPageUtil.getPropertyText(page, DOCUMENT_DESCRIPTION)
+        );
     }
 }

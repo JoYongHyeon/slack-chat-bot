@@ -60,6 +60,19 @@ public class NotionFilterUtil {
         };
     }
 
+    public static List<PropertyFilter> buildDocumentFilters(String property, String value) {
+        return switch (property) {
+            case DOCUMENT_FILE_NAME,
+                 DOCUMENT_DESCRIPTION -> buildTextFilters(property, value);
+            case DOCUMENT_PROJECT,
+                 DOCUMENT_CATEGORY,
+                 DOCUMENT_UPLOADER,
+                 DOCUMENT_STATUS      -> buildSelectFilters(property, value);
+            case DOCUMENT_UPLOAD_DATE -> buildDateFilters(value);
+            default -> List.of();
+        };
+    }
+
     /**
      * 날짜 필터 (범위: "~" 구분, 단일: equals)
      */
@@ -164,9 +177,4 @@ public class NotionFilterUtil {
         return filter;
     }
     // ========== 날짜 조건 세부 생성 메서드 =============================================
-
-    /**
-     * 이메일
-     */
-
 }

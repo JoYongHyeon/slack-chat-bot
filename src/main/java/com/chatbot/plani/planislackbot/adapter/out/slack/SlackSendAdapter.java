@@ -19,6 +19,7 @@ import java.util.List;
 import static com.chatbot.plani.planislackbot.global.util.constant.slack.SlackConstant.*;
 
 // TODO: 공통 예외처리 필요
+
 /**
  * 실제 Slack API 를 사용해 메시지를 전송
  */
@@ -64,16 +65,16 @@ public class SlackSendAdapter implements SlackSendPort {
      * - 예시: 회의 검색 결과는 sendMeetingBlocks, 멤버 검색 결과는 sendMemberBlocks 등으로 위임
      * </p>
      *
-     * @param channel         Slack 채널 ID
-     * @param notionDbIntent  Notion 검색 타입 (MEETING, MEMBER 등)
-     * @param results         검색 결과 리스트 (DTO 컬렉션)
+     * @param channel        Slack 채널 ID
+     * @param notionDbIntent Notion 검색 타입 (MEETING, MEMBER 등)
+     * @param results        검색 결과 리스트 (DTO 컬렉션)
      */
     @Override
-    public void sendNotionSearchResult(String channel, NotionDbIntent notionDbIntent, Collection<?>  results) {
+    public void sendNotionSearchResult(String channel, NotionDbIntent notionDbIntent, Collection<?> results) {
 
         switch (notionDbIntent) {
-            case MEETING  -> sendMeetingBlocks(channel, results);
-            case MEMBER   -> sendMemberBlocks(channel, results);
+            case MEETING -> sendMeetingBlocks(channel, results);
+            case MEMBER -> sendMemberBlocks(channel, results);
             case DOCUMENT -> sendDocumentBlocks(channel, results);
             default -> sendText(channel, ERROR_UNSUPPORTED_TYPE);
 
@@ -152,7 +153,7 @@ public class SlackSendAdapter implements SlackSendPort {
                     .forEach(dto -> {
                         blocks.add(SlackBlockUtil.documentSectionBlock(dto));
                         blocks.add(DividerBlock.builder().build());
-                                    });
+                    });
 
             // 실제 슬랙 API로 블록 메시지 전송
             sendBlocks(channel, blocks, ERROR_SEND_MESSAGE);

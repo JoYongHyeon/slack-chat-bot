@@ -2,9 +2,10 @@ package com.chatbot.plani.planislackbot.adapter.out.openai.keyword;
 
 import com.chatbot.plani.planislackbot.application.port.out.openai.keyword.DocumentKeywordExtractionPort;
 import com.chatbot.plani.planislackbot.global.util.StringUtil;
+import com.chatbot.plani.planislackbot.global.util.notion.NotionFilterUtil;
 import com.chatbot.plani.planislackbot.global.util.notion.helper.OpenAiChatHelper;
-import com.fasterxml.jackson.databind.ser.PropertyFilter;
 import lombok.RequiredArgsConstructor;
+import notion.api.v1.model.databases.query.filter.PropertyFilter;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -77,7 +78,10 @@ public class DocumentExtractionAdapter implements DocumentKeywordExtractionPort 
 
     @Override
     public List<PropertyFilter> buildFilters(Map<String, String> conditions) {
-        return List.of();
+        return conditions.entrySet().stream()
+                .flatMap(entry ->
+                        NotionFilterUtil.buildDocumentFilters(entry.getKey(), entry.getValue()).stream())
+                .toList();
     }
 
 }

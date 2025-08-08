@@ -1,6 +1,6 @@
 package com.chatbot.plani.planislackbot.application.port.out.openai.keyword;
 
-import com.fasterxml.jackson.databind.ser.PropertyFilter;
+import notion.api.v1.model.databases.query.filter.PropertyFilter;
 
 import java.util.List;
 import java.util.Map;

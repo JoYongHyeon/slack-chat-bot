@@ -9,11 +9,11 @@ import com.slack.api.model.block.SectionBlock;
 import com.slack.api.model.block.composition.MarkdownTextObject;
 import com.slack.api.model.block.composition.PlainTextObject;
 import com.slack.api.model.block.element.ButtonElement;
+import org.stringtemplate.v4.ST;
 
 import java.util.List;
 
-import static com.chatbot.plani.planislackbot.global.util.constant.slack.SlackConstant.BTN_SUMMARIZE;
-import static com.chatbot.plani.planislackbot.global.util.constant.slack.SlackConstant.SUMMARIZE_ACTION_ID;
+import static com.chatbot.plani.planislackbot.global.util.constant.slack.SlackConstant.*;
 
 /**
  * Slack 블록 UI 생성 유틸 – 회의, 멤버별 SectionBlock 변환
@@ -32,15 +32,17 @@ public class SlackBlockUtil {
      * @return 슬랙 SectionBlock (제목, URL, 요약 버튼 포함)
      */
     public static LayoutBlock meetingSectionBlock(MeetingSearchResultDTO resultDTO) {
+
+        String meetingTitle = "*%s*\n%s".formatted(resultDTO.title(), resultDTO.url());
+
+        ButtonElement summarizeButton = ButtonElement.builder()
+                .text(PlainTextObject.builder().text(BTN_SUMMARIZE).build())
+                .url(resultDTO.url())
+                .build();
+
         return SectionBlock.builder()
-                .text(MarkdownTextObject.builder()
-                        .text("*%s*\n%s".formatted(resultDTO.title(), resultDTO.url()))
-                        .build())
-                .accessory(ButtonElement.builder()
-                        .text(PlainTextObject.builder().text(BTN_SUMMARIZE).build())
-                        .value(resultDTO.pageId())
-                        .actionId(SUMMARIZE_ACTION_ID)
-                        .build())
+                .text(MarkdownTextObject.builder().text(meetingTitle).build())
+                .accessory(summarizeButton)
                 .build();
     }
 
@@ -71,7 +73,19 @@ public class SlackBlockUtil {
 
     public static LayoutBlock documentSectionBlock(DocumentSearchResultDTO resultDTO) {
 
-        return null;
+        // 파일 명, 파일 링크, 다운로드 버튼
+        String fileTitle = "*%s*\n%s".formatted(resultDTO.fileName(), resultDTO.url());
+
+        // 버튼의 Slack 의 ButtonElement 로 URL 이동 (다운로드X, 링크 이동)
+        ButtonElement downloadButton = ButtonElement.builder()
+                .text(PlainTextObject.builder().text(BTN_DOCUMENT_DOWNLOAD).build())
+                .url(resultDTO.url())
+                .build();
+
+        return SectionBlock.builder()
+                .text(MarkdownTextObject.builder().text(fileTitle).build())
+                .accessory(downloadButton)
+                .build();
     }
 
     /**
@@ -80,7 +94,7 @@ public class SlackBlockUtil {
      *
      * @param message 안내 메시지(포맷 문자열, 예: "총 %d건의 멤버가 검색되었습니다.")
      * @param size    결과 개수
-     * @return        Slack SectionBlock (Markdown 형식)
+     * @return Slack SectionBlock (Markdown 형식)
      */
     public static SectionBlock resultCountBlock(String message, int size) {
         String searchResultCountMsg = message.formatted(size);

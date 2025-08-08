@@ -31,6 +31,7 @@ public class SlackConstant {
     public static final String ERROR_UPDATE_TEXT = "텍스트 업데이트 중 오류가 발생했습니다.";
     // Block 및 버튼
     public static final String BTN_SUMMARIZE = "요약보기";
+    public static final String BTN_DOCUMENT_DOWNLOAD = "파일 다운로드";
 
     // 검색 결과 안내 메시지(포맷)🔍
     public static final String SEARCH_RESULT_MEETING_TEMPLATE = "*🔍총 %d건의 회의가 검색되었습니다.*";
