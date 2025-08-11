@@ -1,8 +1,9 @@
 package com.chatbot.plani.planislackbot.domain.slack.enums;
 
-import jdk.jfr.Description;
 
-@Description(" 1차 intent(서비스 구분)")
+/**
+ * 1차 intent(서비스 구분)
+ */
 public enum ServiceIntent {
     NOTION,
     UNKNOWN;

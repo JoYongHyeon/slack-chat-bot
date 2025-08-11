@@ -3,6 +3,7 @@ package com.chatbot.plani.planislackbot.global.util.slack;
 import com.chatbot.plani.planislackbot.adapter.out.notion.dto.search.DocumentSearchResultDTO;
 import com.chatbot.plani.planislackbot.adapter.out.notion.dto.search.MeetingSearchResultDTO;
 import com.chatbot.plani.planislackbot.adapter.out.notion.dto.search.MemberSearchResultDTO;
+import com.chatbot.plani.planislackbot.adapter.out.notion.dto.search.VacationSearchResultDTO;
 import com.chatbot.plani.planislackbot.global.util.StringUtil;
 import com.slack.api.model.block.LayoutBlock;
 import com.slack.api.model.block.SectionBlock;
@@ -86,6 +87,28 @@ public class SlackBlockUtil {
         return SectionBlock.builder()
                 .text(MarkdownTextObject.builder().text(fileTitle).build())
                 .accessory(downloadButton)
+                .build();
+    }
+
+    public static LayoutBlock vacationSectionBlock(VacationSearchResultDTO resultDTO) {
+
+        String vacation = """
+                👤 *%s*
+                • 유형: %s
+                • 시작일: %s
+                • 종료일: %s
+                • 상태: %s
+                • 사유: %s
+                """.formatted(
+                StringUtil.isEmptyHyphen(resultDTO.applicantName()),
+                StringUtil.isEmptyHyphen(resultDTO.vacationType()),
+                StringUtil.isEmptyHyphen(resultDTO.startDate()),
+                StringUtil.isEmptyHyphen(resultDTO.endDate()),
+                StringUtil.isEmptyHyphen(resultDTO.status()),
+                StringUtil.isEmptyHyphen(resultDTO.reason()));
+
+        return SectionBlock.builder()
+                .text(MarkdownTextObject.builder().text(vacation).build())
                 .build();
     }
 

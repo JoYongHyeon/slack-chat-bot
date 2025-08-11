@@ -18,11 +18,10 @@ import java.util.List;
 /**
  * [Notion::회의록] 명령어 핸들러
  *
- * - 슬랙에서 전달받은 명령을 해석해 Notion 회의록 DB 검색
+ * - 슬랙에서 전달받은 명령을 해석해 Notion 멤버 DB 검색
  * - 결과를 Slack 메시지(블록 UI)로 전송
  * - 입력 검증/에러는 헬퍼에서 처리
  */
-@Slf4j
 @Service
 @RequiredArgsConstructor
 public class MemberEventHandler implements NotionEventHandler {

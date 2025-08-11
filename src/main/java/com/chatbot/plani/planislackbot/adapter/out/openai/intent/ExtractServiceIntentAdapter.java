@@ -41,7 +41,7 @@ public class ExtractServiceIntentAdapter implements ExtractServiceIntentPort {
                         장소명(ex: 이비자, 산토리니, 피렌체, 청운관, 발리, 아로파홀 등)
                 
                 - 휴가, 연차 관련 키워드 → "vacation"
-                    예: '휴가', '연차', '휴가자', '휴무', '연차자', '휴가현황'
+                    예: '휴가', '연차', '오전반차', '오후반차', '반차', '병가', '기간', '휴가자', '휴무', '연차자', '휴가현황'
                 
                 - 문서, 자료, 파일, 다운로드 등 관련 키워드 → "document"
                     예: '문서', '자료', '파일', '가이드', '업로드', '다운로드'
@@ -60,6 +60,9 @@ public class ExtractServiceIntentAdapter implements ExtractServiceIntentPort {
                 "3월 회의 보고서 줘" → {"service":"notion","intent":"meeting"} 
                 "7월 회의록" → {"service":"notion","intent":"meeting"} 
                 "연차 쓴 사람 목록 보여줘" → {"service":"notion","intent":"vacation"}
+                "8월 연차 목록 보여줘" -> {"service":"notion","intent":"vacation"}
+                "8월 12일 오전반차 쓴사람 보여줘" -> {"service":"notion","intent":"vacation"}
+                "8월 12일 오후반차 쓴사람 보여줘" -> {"service":"notion","intent":"vacation"}
                 "6월달 회의 보여줘" → {"service":"notion","intent":"meeting"}
                 "문서 자료 모아줘" → {"service":"notion","intent":"document"}
                 "회사 조직도 알려줘" → {"service":"notion","intent":"member"} 

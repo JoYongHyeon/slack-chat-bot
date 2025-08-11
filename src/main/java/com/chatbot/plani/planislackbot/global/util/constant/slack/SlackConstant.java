@@ -39,6 +39,7 @@ public class SlackConstant {
     public static final String SEARCH_RESULT_MEETING_TEMPLATE = "*🔍총 %d건의 회의가 검색되었습니다.*";
     public static final String SEARCH_RESULT_MEMBER_TEMPLATE = "*🔍총 %d건의 멤버가 검색되었습니다.*";
     public static final String SEARCH_RESULT_DOCUMENT_TEMPLATE = "*🔍총 %d건의 문서가 검색되었습니다.*";
+    public static final String SEARCH_RESULT_VACATION_TEMPLATE = "*🔍총 %d건의 휴가자가 검색되었습니다.*";
 
     public static final String FILE_DOWNLOAD_LINK_TEMPLATE ="📄 *%s* 파일을 다운로드하려면 아래 링크를 클릭하세요:\n%s";
 }

@@ -3,6 +3,8 @@ package com.chatbot.plani.planislackbot.adapter.out.slack;
 import com.chatbot.plani.planislackbot.adapter.out.notion.dto.search.DocumentSearchResultDTO;
 import com.chatbot.plani.planislackbot.adapter.out.notion.dto.search.MeetingSearchResultDTO;
 import com.chatbot.plani.planislackbot.adapter.out.notion.dto.search.MemberSearchResultDTO;
+import com.chatbot.plani.planislackbot.adapter.out.notion.dto.search.VacationSearchResultDTO;
+import com.chatbot.plani.planislackbot.adapter.out.notion.search.VacationEventSearchAdapter;
 import com.chatbot.plani.planislackbot.application.port.out.slack.SlackSendPort;
 import com.chatbot.plani.planislackbot.domain.notion.enums.NotionDbIntent;
 import com.chatbot.plani.planislackbot.global.util.slack.SlackBlockUtil;
@@ -76,12 +78,13 @@ public class SlackSendAdapter implements SlackSendPort {
             case MEETING -> sendMeetingBlocks(channel, results);
             case MEMBER -> sendMemberBlocks(channel, results);
             case DOCUMENT -> sendDocumentBlocks(channel, results);
+            case VACATION -> sendVacationBlocks(channel, results);
             default -> sendText(channel, ERROR_UNSUPPORTED_TYPE);
 
         }
     }
 
-    public void sendMeetingBlocks(String channel, Collection<?> results) {
+    private void sendMeetingBlocks(String channel, Collection<?> results) {
         try {
             // Notion 검색 결과를 슬랙의 LayoutBlock 리스트로 변환
             List<LayoutBlock> blocks = new ArrayList<>();
@@ -108,7 +111,7 @@ public class SlackSendAdapter implements SlackSendPort {
         }
     }
 
-    public void sendMemberBlocks(String channel, Collection<?> results) {
+    private void sendMemberBlocks(String channel, Collection<?> results) {
         try {
             List<LayoutBlock> blocks = new ArrayList<>();
 
@@ -135,9 +138,8 @@ public class SlackSendAdapter implements SlackSendPort {
         }
     }
 
-    public void sendDocumentBlocks(String channel, Collection<?> results) {
+    private void sendDocumentBlocks(String channel, Collection<?> results) {
         try {
-
             List<LayoutBlock> blocks = new ArrayList<>();
 
             // 1. 검색 결과 개수 안내 텍스트 유틸
@@ -157,6 +159,34 @@ public class SlackSendAdapter implements SlackSendPort {
 
             // 실제 슬랙 API로 블록 메시지 전송
             sendBlocks(channel, blocks, ERROR_SEND_MESSAGE);
+        } catch (Exception e) {
+            // 블록 메시지 전송 실패 시 안내 메시지 전송
+            sendText(channel, ERROR_SEND_MESSAGE);
+        }
+    }
+
+    private void sendVacationBlocks(String channel, Collection<?> results) {
+        try {
+            List<LayoutBlock> blocks = new ArrayList<>();
+
+            // 1. 검색 결과 개수 안내 텍스트 유틸
+            blocks.add(SlackBlockUtil.resultCountBlock(SEARCH_RESULT_VACATION_TEMPLATE, results.size()));
+
+            // 2. 구분선
+            blocks.add(DividerBlock.builder().build());
+
+            // 3. 실제 검색 결과
+            results.stream()
+                    .filter(VacationSearchResultDTO.class::isInstance)
+                    .map(VacationSearchResultDTO.class::cast)
+                    .forEach(dto -> {
+                        blocks.add(SlackBlockUtil.vacationSectionBlock(dto));
+                        blocks.add(DividerBlock.builder().build());
+                    });
+
+            // 실제 슬랙 API로 블록 메시지 전송
+            sendBlocks(channel, blocks, ERROR_SEND_MESSAGE);
+
         } catch (Exception e) {
             // 블록 메시지 전송 실패 시 안내 메시지 전송
             sendText(channel, ERROR_SEND_MESSAGE);

@@ -39,15 +39,13 @@ public class NotionConstant {
     public static final String DOCUMENT_DESCRIPTION  = "설명";
 
     // --- 4. 휴가 관리 DB ---
-    public static final String VACATION_TITLE        = "이름";
-    public static final String VACATION_APPLICANT    = "신청자";
-    public static final String VACATION_TYPE         = "휴가 유형";
-    public static final String VACATION_START_DATE   = "시작일";
-    public static final String VACATION_END_DATE     = "종료일";
-    public static final String VACATION_PERIOD       = "기간";
-    public static final String VACATION_APPROVAL     = "승인 상태";
-    public static final String VACATION_MANAGER      = "담당자";
-    public static final String VACATION_REASON       = "사유";
+    public static final String VACATION_APPLICANT_NAME = "신청자";
+    public static final String VACATION_TYPE           = "유형";
+    public static final String VACATION_START_DATE     = "시작일";
+    public static final String VACATION_END_DATE       = "종료일";
+    public static final String VACATION_STATUS         = "상태";
+    public static final String VACATION_APPROVER_NAME  = "담당자";
+    public static final String VACATION_REASON         = "사유";
 
     // 문서 DB
 

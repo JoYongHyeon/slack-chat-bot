@@ -5,6 +5,7 @@ import notion.api.v1.model.databases.query.filter.condition.DateFilter;
 import notion.api.v1.model.databases.query.filter.condition.MultiSelectFilter;
 import notion.api.v1.model.databases.query.filter.condition.SelectFilter;
 import notion.api.v1.model.databases.query.filter.condition.TextFilter;
+import org.json.Property;
 
 import java.util.Arrays;
 import java.util.List;
@@ -60,6 +61,16 @@ public class NotionFilterUtil {
         };
     }
 
+    /**
+     * 문서(Document) 관련 필터 생성
+     * - 파일명/설명: 텍스트 필터
+     * - 프로젝트/카테고리/업로더/상태: 단일 선택 필터
+     * - 업로드 날짜: 날짜 필터
+     *
+     * @param property 문서 컬럼명
+     * @param value    검색 값
+     * @return 해당 조건에 맞는 PropertyFilter 리스트
+     */
     public static List<PropertyFilter> buildDocumentFilters(String property, String value) {
         return switch (property) {
             case DOCUMENT_FILE_NAME,
@@ -69,6 +80,29 @@ public class NotionFilterUtil {
                  DOCUMENT_UPLOADER,
                  DOCUMENT_STATUS      -> buildSelectFilters(property, value);
             case DOCUMENT_UPLOAD_DATE -> buildDateFilters(value);
+            default -> List.of();
+        };
+    }
+
+    /**
+     * 휴가(Vacation) 관련 필터 생성
+     * - 신청자 이름/사유: 텍스트 필터
+     * - 휴가 유형/상태/승인자 이름: 단일 선택 필터
+     * - 시작일/종료일: 날짜 필터
+     *
+     * @param property 휴가 컬럼명
+     * @param value    검색 값
+     * @return 해당 조건에 맞는 PropertyFilter 리스트
+     */
+    public static List<PropertyFilter> buildVacationFilters(String property, String value) {
+        return switch (property) {
+            case VACATION_APPLICANT_NAME,
+                 VACATION_REASON          -> buildTextFilters(property, value);
+            case VACATION_TYPE,
+                 VACATION_STATUS,
+                 VACATION_APPROVER_NAME   -> buildSelectFilters(property, value);
+            case VACATION_START_DATE,
+                 VACATION_END_DATE        -> buildDateFilters(value);
             default -> List.of();
         };
     }
