@@ -14,6 +14,8 @@ public enum NotionDbIntent {
     DOCUMENT,
     // 휴가
     VACATION,
+    // 휴가등록
+    VACATION_REGISTER,
     // 그 외
     UNKNOWN;
 

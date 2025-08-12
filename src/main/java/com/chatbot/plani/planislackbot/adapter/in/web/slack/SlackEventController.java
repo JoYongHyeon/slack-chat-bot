@@ -1,11 +1,9 @@
 package com.chatbot.plani.planislackbot.adapter.in.web.slack;
 
-import com.chatbot.plani.planislackbot.adapter.in.web.slack.dto.SlackBlockActionDTO;
 import com.chatbot.plani.planislackbot.adapter.in.web.slack.dto.SlackEventCallbackDTO;
 import com.chatbot.plani.planislackbot.application.dispatcher.SlackCommandDispatcher;
 import com.chatbot.plani.planislackbot.global.util.StringUtil;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,7 +31,7 @@ public class SlackEventController {
     @PostMapping("/events")
     public ResponseEntity<String> onEvent(@RequestBody SlackEventCallbackDTO slackEvent) {
         // Slack Challenge 인증 요청 시 바로 응답 (최초 한번)
-        if (StringUtil.isNotEmpty(slackEvent.challenge())) return  ResponseEntity.status(HttpStatus.OK).build();
+        if (StringUtil.isNotEmpty(slackEvent.challenge())) return  ResponseEntity.ok(slackEvent.challenge());
         return slackDispatcher.route(slackEvent);
     }
 
