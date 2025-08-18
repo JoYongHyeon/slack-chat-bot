@@ -14,8 +14,11 @@ import com.slack.api.model.block.element.ButtonElement;
 import static com.chatbot.plani.planislackbot.global.util.constant.slack.SlackConstant.*;
 
 /**
- * Slack 블록 UI 생성 유틸 – 회의, 멤버별 SectionBlock 변환
+ * Slack 블록 UI 생성 유틸리티
+ * - Notion 검색 결과를 Slack 메시지 Block 형태로 변환
+ * - 각 DB 유형(회의, 멤버, 문서, 휴가)에 맞는 Block 생성 메서드 제공
  */
+
 public class SlackBlockUtil {
     public SlackBlockUtil() {
     }
@@ -46,6 +49,10 @@ public class SlackBlockUtil {
                 .build();
     }
 
+    /**
+     * 멤버 검색 결과 → Slack SectionBlock 변환
+     * - 이름, 소속, 직책, 연락처 등 표시
+     */
     public static LayoutBlock memberSectionBlock(MemberSearchResultDTO resultDTO) {
 
         String member = """
@@ -71,6 +78,10 @@ public class SlackBlockUtil {
                 .build();
     }
 
+    /**
+     * 문서 검색 결과 → Slack SectionBlock 변환
+     * - 파일명 + URL + "다운로드" 버튼
+     */
     public static LayoutBlock documentSectionBlock(DocumentSearchResultDTO resultDTO) {
 
         // 파일 명, 파일 링크, 다운로드 버튼
@@ -90,6 +101,10 @@ public class SlackBlockUtil {
                 .build();
     }
 
+    /**
+     * 휴가 검색 결과 → Slack SectionBlock 변환
+     * - 신청자, 유형, 기간, 상태, 사유 표시
+     */
     public static LayoutBlock vacationSectionBlock(VacationSearchResultDTO resultDTO) {
 
         String vacation = """
@@ -109,6 +124,23 @@ public class SlackBlockUtil {
 
         return SectionBlock.builder()
                 .text(MarkdownTextObject.builder().text(vacation).build())
+                .build();
+    }
+
+    /**
+     * "휴가 등록" 모달 열기 버튼 Block
+     */
+    public static LayoutBlock vacationRegisterOpenModalBlock() {
+
+        ButtonElement openModalButton = ButtonElement.builder()
+                .text(PlainTextObject.builder().text(BTN_VACATION_REGISTER).build())
+                .actionId(VACATION_REGISTER_ACTION_ID)
+                .build();
+
+        return SectionBlock.builder()
+                .text(MarkdownTextObject.builder()
+                        .text(VACATION_REGISTER_GUIDE_MSG).build())
+                .accessory(openModalButton)
                 .build();
     }
 

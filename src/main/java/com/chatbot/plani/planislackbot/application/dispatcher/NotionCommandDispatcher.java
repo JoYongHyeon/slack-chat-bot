@@ -2,9 +2,11 @@ package com.chatbot.plani.planislackbot.application.dispatcher;
 
 import com.chatbot.plani.planislackbot.adapter.in.web.slack.dto.SlackBlockActionDTO;
 import com.chatbot.plani.planislackbot.adapter.in.web.slack.dto.SlackEventCallbackDTO;
+import com.chatbot.plani.planislackbot.adapter.in.web.slack.dto.SlackViewSubmissionDTO;
 import com.chatbot.plani.planislackbot.application.assembler.SlackEventAssembler;
 import com.chatbot.plani.planislackbot.application.port.in.NotionEventHandler;
 import com.chatbot.plani.planislackbot.application.port.in.NotionInteractionHandler;
+import com.chatbot.plani.planislackbot.application.port.in.NotionViewSubmissionHandler;
 import com.chatbot.plani.planislackbot.domain.notion.enums.NotionDbIntent;
 import com.chatbot.plani.planislackbot.domain.slack.vo.SlackCommandVO;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -25,13 +27,17 @@ public class NotionCommandDispatcher {
     // 노션 2차 intent (
     private final Map<NotionDbIntent, NotionEventHandler> handlerMap;
     private final Map<String, NotionInteractionHandler> interactionHandlerMap;
+    private final Map<String, NotionViewSubmissionHandler> viewSubmissionHandlerMap;
 
     public NotionCommandDispatcher(Map<NotionDbIntent, NotionEventHandler> handlerMap,
                                    @Qualifier("interactionHandlerMap")
-                                   Map<String, NotionInteractionHandler> interactionHandlerMap) {
+                                   Map<String, NotionInteractionHandler> interactionHandlerMap,
+                                   @Qualifier("viewSubmissionHandlerMap")
+                                   Map<String, NotionViewSubmissionHandler> viewSubmissionHandlerMap) {
 
-        this.handlerMap = handlerMap;
-        this.interactionHandlerMap = interactionHandlerMap;
+        this.handlerMap               = handlerMap;
+        this.interactionHandlerMap    = interactionHandlerMap;
+        this.viewSubmissionHandlerMap = viewSubmissionHandlerMap;
     }
 
     // Notion intent(회의, 휴가, 멤버, 문서 등) 핸들러로 2차 분기
@@ -60,6 +66,13 @@ public class NotionCommandDispatcher {
         NotionInteractionHandler handler = interactionHandlerMap.get(actionId);
         if (handler != null) {
             handler.handleInteraction(slackAction);
+        }
+    }
+
+    public void dispatchViewSubmission(SlackViewSubmissionDTO slackCallback, String callbackId) {
+        NotionViewSubmissionHandler handler = viewSubmissionHandlerMap.get(callbackId);
+        if (handler != null) {
+            handler.handleViewSubmission(slackCallback);
         }
     }
 }

@@ -1,9 +1,11 @@
 package com.chatbot.plani.planislackbot.global.util.notion;
 
+import notion.api.v1.model.common.RichTextType;
 import notion.api.v1.model.databases.DatabaseProperty;
 import notion.api.v1.model.pages.Page;
 import notion.api.v1.model.pages.PageProperty;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -95,5 +97,70 @@ public class NotionPageUtil {
         }
 
         return "-";
+    }
+
+    /* ==========================
+       생성 관련 메서드 (새로 추가)
+       ========================== */
+
+    /**
+     * Notion의 Title 속성 값을 생성합니다.
+     * - 반드시 DB의 "타이틀 속성명" 키에만 넣어야 합니다. (대개 "Name" 또는 커스텀명)
+     */
+    public static PageProperty titleProperty(String text) {
+        PageProperty p = new PageProperty();
+        p.setTitle(List.of(new PageProperty.RichText(
+                RichTextType.Text,
+                new PageProperty.RichText.Text(text),
+                null, text, null, null, null
+        )));
+        return p;
+    }
+
+    /**
+     * Notion의 Select 속성 값을 생성합니다.
+     * - optionName은 해당 DB에 "미리 존재하는 옵션명"과 정확히 일치해야 합니다.
+     *   (예: 유형=연차/반차, 상태=신청/승인 등)
+     */
+    public static PageProperty selectProperty(String optionName) {
+        PageProperty p = new PageProperty();
+        p.setSelect(new DatabaseProperty.Select.Option(null, optionName, null, null));
+        return p;
+    }
+
+    /**
+     * Notion의 Date 속성(단일 날짜 컬럼) 값을 생성합니다.
+     * - 시작일 컬럼처럼 "start"만 채울 때 사용합니다.
+     * - 예: "2025-08-19" (ISO 8601 yyyy-MM-dd 또는 ISO datetime 문자열)
+     */
+    public static PageProperty dateStartProperty(String startDate) {
+        PageProperty p = new PageProperty();
+        p.setDate(new PageProperty.Date(startDate, null, null));
+        return p;
+    }
+
+    /**
+     * Notion의 Date 속성(기간 컬럼) 값을 생성합니다.
+     * - 하나의 컬럼이 start~end 기간을 표현할 때 사용합니다.
+     * - 예: 기간(휴가일자) 컬럼이 start~end를 동시에 가지는 경우.
+     */
+    public static PageProperty dateRangeProperty(String startDate, String endDate) {
+        PageProperty p = new PageProperty();
+        p.setDate(new PageProperty.Date(startDate, endDate, null)); // start+end 설정
+        return p;
+    }
+
+    /**
+     * Notion의 Rich Text 속성 값을 생성합니다.
+     * - 메모/사유 등 자유 텍스트에 사용합니다.
+     */
+    public static PageProperty richTextProperty(String text) {
+        PageProperty p = new PageProperty();
+        p.setRichText(List.of(new PageProperty.RichText(
+                RichTextType.Text,
+                new PageProperty.RichText.Text(text),
+                null, text, null, null, null
+        )));
+        return p;
     }
 }

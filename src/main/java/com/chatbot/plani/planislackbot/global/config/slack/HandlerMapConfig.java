@@ -3,6 +3,7 @@ package com.chatbot.plani.planislackbot.global.config.slack;
 import com.chatbot.plani.planislackbot.application.port.in.BotCommand;
 import com.chatbot.plani.planislackbot.application.port.in.NotionEventHandler;
 import com.chatbot.plani.planislackbot.application.port.in.NotionInteractionHandler;
+import com.chatbot.plani.planislackbot.application.port.in.NotionViewSubmissionHandler;
 import com.chatbot.plani.planislackbot.domain.notion.enums.NotionDbIntent;
 import com.chatbot.plani.planislackbot.domain.slack.enums.ServiceIntent;
 import org.springframework.context.annotation.Bean;
@@ -56,6 +57,20 @@ public class HandlerMapConfig {
         return handlers.stream()
                 .collect(Collectors.toMap(
                         NotionInteractionHandler::getActionId,
+                        Function.identity()
+                ));
+    }
+
+    /**
+     * callbackId(String) → NotionViewSubmissionHandler 구현체 매핑
+     * ex) "vacation_register_modal" → VacationRegisterViewSubmissionHandler
+     * Slack view_submission(모달 제출) 처리 전용
+     */
+    @Bean
+    public Map<String, NotionViewSubmissionHandler> viewSubmissionHandlerMap(List<NotionViewSubmissionHandler> handlers) {
+        return handlers.stream()
+                .collect(Collectors.toMap(
+                        NotionViewSubmissionHandler::getCallbackId,
                         Function.identity()
                 ));
     }

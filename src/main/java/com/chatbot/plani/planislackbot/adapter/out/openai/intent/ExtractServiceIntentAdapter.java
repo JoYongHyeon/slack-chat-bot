@@ -72,6 +72,8 @@ public class ExtractServiceIntentAdapter implements ExtractServiceIntentPort {
                 "청운관 참석자 알려줘" → {"service":"notion","intent":"meeting"}
                 "5월 회의 내용 확인" → {"service":"notion","intent":"meeting"}
                 "휴가등록" → {"service":"notion","intent":"vacation_register"}
+                "휴가등록 창 보여줘" → {"service":"notion","intent":"vacation_register"}
+                "휴가등록 할래" → {"service":"notion","intent":"vacation_register"}
                 "병가 신청" → {"service":"notion","intent":"vacation_register"}
                 "8월 12일 휴가 신청 해줘" → {"service":"notion","intent":"vacation_register"}
                 "8월 12일 병가 신청 해줘" → {"service":"notion","intent":"vacation_register"}

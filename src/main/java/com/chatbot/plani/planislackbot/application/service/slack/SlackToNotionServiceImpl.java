@@ -2,6 +2,7 @@ package com.chatbot.plani.planislackbot.application.service.slack;
 
 import com.chatbot.plani.planislackbot.adapter.in.web.slack.dto.SlackBlockActionDTO;
 import com.chatbot.plani.planislackbot.adapter.in.web.slack.dto.SlackEventCallbackDTO;
+import com.chatbot.plani.planislackbot.adapter.in.web.slack.dto.SlackViewSubmissionDTO;
 import com.chatbot.plani.planislackbot.application.dispatcher.NotionCommandDispatcher;
 import com.chatbot.plani.planislackbot.application.port.in.BotCommand;
 import com.chatbot.plani.planislackbot.domain.notion.enums.NotionDbIntent;
@@ -36,6 +37,11 @@ public class SlackToNotionServiceImpl implements BotCommand {
     @Override
     public void interaction(SlackBlockActionDTO slackAction, String actionId) {
         notionCommandDispatcher.dispatchInteraction(slackAction, actionId);
+    }
+
+    @Override
+    public void viewSubmission(SlackViewSubmissionDTO slackCallback, String callbackId) {
+        notionCommandDispatcher.dispatchViewSubmission(slackCallback, callbackId);
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.chatbot.plani.planislackbot.application.port.in;
 
 import com.chatbot.plani.planislackbot.adapter.in.web.slack.dto.SlackBlockActionDTO;
 import com.chatbot.plani.planislackbot.adapter.in.web.slack.dto.SlackEventCallbackDTO;
+import com.chatbot.plani.planislackbot.adapter.in.web.slack.dto.SlackViewSubmissionDTO;
 import com.chatbot.plani.planislackbot.domain.slack.enums.ServiceIntent;
 import org.springframework.http.ResponseEntity;
 
@@ -36,6 +37,13 @@ public interface BotCommand {
      */
     void interaction(SlackBlockActionDTO slackAction, String actionId);
 
+    /**
+     * 모달 제출(View Submission) 이벤트 처리
+     *
+     * @param dto 모달 제출 payload
+     */
+
+    void viewSubmission(SlackViewSubmissionDTO dto, String callbackId);
     /**
      * 커맨드(슬래시 명령 등) 처리
      * @param params 커맨드 파라미터 맵
