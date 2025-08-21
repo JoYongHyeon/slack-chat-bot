@@ -3,8 +3,31 @@ server:
 
 spring:
   profiles:
-    active: local
+    active: dev
   application:
     name: plani-slack-bot
 
+  ai:
+    openai:
+      api-key: ${OPEN_AI_API_KEY}
 
+# open ai 의 업데이트 시 응답 데이터가 바뀜 -> 오류 -> 무시
+#  jackson:
+#    deserialization:
+#      fail-on-unknown-properties: false
+notion:
+  api-key: ${NOTION_API_KEY}
+  # notion 데이터베이스 아이디
+  database:
+    meeting-id: ${NOTION_MEETING}
+    member-id: ${NOTION_MEMBER}
+    document-id: ${NOTION_DOCUMENT}
+    vacation-id: ${NOTION_VACATION}
+
+slack:
+  bot-token: ${SLACK_BOT_TOKEN}
+
+logging:
+  level:
+    root: info
+    org.springframework.web: error

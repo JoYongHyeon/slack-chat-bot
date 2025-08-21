@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: plani-slack-bot
+  namespace: plani-slack-bot-dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: plani-slack-bot
+  template:
+    metadata:
+      labels:
+        app: plani-slack-bot
+    spec:
+      containers:
+        - name: plani-slack-bot
+          # 태그 없음, GitOps 에서 관리
+          image: harbor.plani.co.kr/plani-slack-bot/plani-slack-bot
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+          envFrom:
+            - secretRef:
+                name: plani-slack-bot-secrets
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: dev
