@@ -1,3 +1,4 @@
+namespace: plani-slack-bot
 resources:
   - namespace.yaml
   - service.yaml
