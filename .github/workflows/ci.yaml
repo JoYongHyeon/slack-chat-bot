@@ -35,7 +35,22 @@ jobs:
           distribution: temurin
           java-version: '21'
 
-      # 3. 커밋 메시지에서 [Release]:x.y.z 버전 문자열 추출
+      # 3. Gradle 빌드 (테스트 제외, JAR 생성)
+      - name: Build JAR
+        run: |
+          chmod +x ./gradlew
+          ./gradlew clean bootJar -x test
+          
+
+      # 4. Harbor 로그인
+      - name: Harbor login
+        run: |
+          echo "$HARBOR_PASSWORD" | \
+            nerdctl login $HARBOR_REGISTRY \
+              -u "$HARBOR_USERNAME" --password-stdin
+          
+
+      # 5. 커밋 메시지에서 [Release]:x.y.z 버전 문자열 추출
       - name: Extract VERSION
         id: ver
         run: |
@@ -48,53 +63,39 @@ jobs:
           echo "VERSION=$VERSION" >> $GITHUB_ENV # 이후 단계에서 사용 가능
           echo "version=$VERSION" >> $GITHUB_OUTPUT
 
-      # 4. Gradle 빌드 (테스트 제외, JAR 생성)
-      - name: Build JAR
-        run: |
-          chmod +x ./gradlew
-          ./gradlew clean bootJar -x test
 
-#
-#      # 5. Harbor 로그인
-#      - name: Harbor login
-#        run: |
-#          echo "$HARBOR_PASSWORD" | \
-#            nerdctl login $HARBOR_REGISTRY \
-#              -u "$HARBOR_USERNAME" --password-stdin
-#
-#
-#      # 6. 컨테이너 이미지 빌드
-#      - name: Build Image
-#        env:
-#          VERSION: ${{ env.VERSION }}
-#        run: |
-#          nerdctl build -t $HARBOR_REGISTRY/$HARBOR_PROJECT/$HARBOR_PROJECT:$VERSION .
-#
-#      # 7. 컨테이너 이미지 푸시
-#      - name: Push Image
-#        working-directory: plani-slack-bot
-#        env:
-#          VERSION: ${{ env.VERSION }}
-#        run: |
-#          nerdctl push $HARBOR_REGISTRY/$HARBOR_PROJECT/$HARBOR_PROJECT:$VERSION
-#
-#
-#      # 8. kustomization.yaml 파일의 newTag 값을 최신 버전으로 교체 후 커밋/푸시
-#      #    -> Git 변경을 ArgoCD 가 감지 -> 자동 배포 트리거
-#      - name: Bump Kustomization.yaml
-#        env:
-#          VERSION: ${{ env.VERSION }}
-#        run: |
-#          FILE="k8s/dev/kustomization.yaml"
-#          sed -i "s|newTag: \".*\"|newTag: \"${VERSION}\"|g" "$FILE"
-#          git config user.name  "github-actions[bot]"
-#          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-#          git add "$FILE"
-#          git commit -m "chore(dev): release ${VERSION} (bump image tag)"
-#          git push
-#
-#      # 9. 로컬 캐시 정리 (항상)
-#      - name: 로컬 캐시 정리 (항상)
-#        if: always()
-#        run: |
-#          nerdctl image prune -f
+      # 6. 컨테이너 이미지 빌드
+      - name: Build Image
+        env:
+          VERSION: ${{ env.VERSION }}
+        run: |
+          nerdctl build -f Dockerfile -t $HARBOR_REGISTRY/$HARBOR_PROJECT/$HARBOR_PROJECT:$VERSION .
+
+      # 7. 컨테이너 이미지 푸시
+      - name: Push Image
+        working-directory: plani-slack-bot
+        env:
+          VERSION: ${{ env.VERSION }}
+        run: |
+          nerdctl push $HARBOR_REGISTRY/$HARBOR_PROJECT/$HARBOR_PROJECT:$VERSION
+
+
+      # 8. kustomization.yaml 파일의 newTag 값을 최신 버전으로 교체 후 커밋/푸시
+      #    -> Git 변경을 ArgoCD 가 감지 -> 자동 배포 트리거
+      - name: Bump Kustomization.yaml
+        env:
+          VERSION: ${{ env.VERSION }}
+        run: |
+          FILE="k8s/dev/kustomization.yaml"
+          sed -i "s|newTag: \".*\"|newTag: \"${VERSION}\"|g" "$FILE"
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add "$FILE"
+          git commit -m "chore(dev): release ${VERSION} (bump image tag)"
+          git push
+
+      # 9. 로컬 캐시 정리 (항상)
+      - name: 로컬 캐시 정리 (항상)
+        if: always()
+        run: |
+          nerdctl image prune -f
