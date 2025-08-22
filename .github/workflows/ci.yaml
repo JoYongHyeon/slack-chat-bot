@@ -56,7 +56,14 @@ jobs:
           ./gradlew clean bootJar -x test
 
 
-      # 5. Harbor 레지스트리에 로그인 (nerdctl 사용)
+      # 5. rootless containerd 재시작 및 상태 확인
+      - name: Restart and check rootless containerd
+        run: |
+          systemctl --user restart containerd
+          sleep 5
+          nerdctl info
+
+      # 6. Harbor 레지스트리에 로그인 (nerdctl 사용)
       - name: Harbor login
         run: |
           echo "$HARBOR_PASSWORD" | \
