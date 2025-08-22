@@ -1,7 +1,6 @@
 package com.chatbot.plani.planislackbot.domain.notion.enums;
 
 import jdk.jfr.Description;
-import lombok.Getter;
 
 @Description("노션 2차 분기 처리")
 public enum NotionDbIntent {

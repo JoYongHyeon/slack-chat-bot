@@ -7,13 +7,10 @@ import com.chatbot.plani.planislackbot.application.port.out.slack.SlackSendPort;
 import com.chatbot.plani.planislackbot.global.util.StringUtil;
 import com.chatbot.plani.planislackbot.global.util.slack.SlackInteractionUtil;
 import com.chatbot.plani.planislackbot.global.util.slack.SlackModalUtil;
-import com.slack.api.methods.request.views.ViewsOpenRequest;
-import com.slack.api.model.view.View;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 
 import static com.chatbot.plani.planislackbot.global.util.constant.slack.SlackConstant.*;
 
