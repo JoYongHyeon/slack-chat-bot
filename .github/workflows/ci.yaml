@@ -22,8 +22,6 @@ jobs:
       HARBOR_REGISTRY: ${{ secrets.HARBOR_REGISTRY }}
       # rootless nerdctl 실행 환경 변수
       XDG_RUNTIME_DIR: /run/user/1001
-      BUILDKIT_HOST: unix:///run/user/1001/buildkit-default/buildkitd.sock
-      CONTAINERD_SNAPSHOTTER: native
 
     steps:
       # 1. GitHub 리포지토리 소스 체크아웃
@@ -72,9 +70,9 @@ jobs:
           VERSION: ${{ env.VERSION }}
         run: |
           IMAGE="$HARBOR_REGISTRY/$HARBOR_PROJECT"
-          nerdctl build -f Dockerfile \
+          nerdctl --snapshotter=native build -f Dockerfile \
             -t $IMAGE:$VERSION .
-          nerdctl push $IMAGE:$VERSION
+          nerdctl --snapshotter=native push $IMAGE:$VERSION
 
       # 7. kustomization.yaml 파일의 newTag 값을 최신 버전으로 교체 후 커밋/푸시
       #    -> Git 변경을 ArgoCD 가 감지 -> 자동 배포 트리거
