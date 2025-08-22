@@ -2,7 +2,6 @@ package com.chatbot.plani.planislackbot.application.port.out.notion.file;
 
 import com.chatbot.plani.planislackbot.adapter.out.notion.dto.file.DocumentFileDTO;
 
-import java.util.List;
 
 public interface DocumentFileDownloadPort {
 

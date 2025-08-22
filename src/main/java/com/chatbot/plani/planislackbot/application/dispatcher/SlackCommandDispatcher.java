@@ -14,8 +14,6 @@ import com.chatbot.plani.planislackbot.global.util.slack.SlackAckUtil;
 import com.chatbot.plani.planislackbot.global.util.slack.SlackInteractionUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 

@@ -9,7 +9,6 @@ import com.chatbot.plani.planislackbot.domain.slack.vo.SlackCommandVO;
 import com.chatbot.plani.planislackbot.global.config.notion.NotionDatabaseProperties;
 import com.chatbot.plani.planislackbot.global.util.notion.helper.NotionEventHandlerHelper;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
