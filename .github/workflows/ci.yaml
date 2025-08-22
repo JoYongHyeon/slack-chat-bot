@@ -6,8 +6,8 @@ name: CI Dev
 
 on:
   push:
-    # develop 에 병합되면 push 이벤트로 CI 자동 실행
-    branches: [ "develop" ]
+    # main 에 병합되면 push 이벤트로 CI 자동 실행
+    branches: [ "main" ]
 
 jobs:
   build-and-release:
