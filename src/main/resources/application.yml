@@ -11,10 +11,6 @@ spring:
     openai:
       api-key: ${OPEN_AI_API_KEY}
 
-# open ai 의 업데이트 시 응답 데이터가 바뀜 -> 오류 -> 무시
-#  jackson:
-#    deserialization:
-#      fail-on-unknown-properties: false
 notion:
   api-key: ${NOTION_API_KEY}
   # notion 데이터베이스 아이디
