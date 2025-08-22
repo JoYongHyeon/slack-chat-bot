@@ -83,7 +83,7 @@ jobs:
 
 
       # 8. kustomization.yaml 파일의 newTag 값을 최신 버전으로 교체 후 커밋/푸시
-      #    -> Git 변경을 ArgoCD 가 감지 -> 자동 배포 트리거
+      #    -> Git 변경을 ArgoCD 가 감지 -> 자동 배포 트리거.
       - name: Bump Kustomization.yaml
         env:
           VERSION: ${{ env.VERSION }}
