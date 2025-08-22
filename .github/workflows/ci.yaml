@@ -76,7 +76,6 @@ jobs:
 
       # 7. 컨테이너 이미지 푸시
       - name: Push Image
-        working-directory: plani-slack-bot
         env:
           VERSION: ${{ env.VERSION }}
         run: |
