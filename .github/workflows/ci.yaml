@@ -22,6 +22,8 @@ jobs:
       HARBOR_REGISTRY: ${{ secrets.HARBOR_REGISTRY }}
       # rootless nerdctl 실행 환경 변수
       XDG_RUNTIME_DIR: /run/user/1001
+      BUILDKIT_HOST: unix:///run/user/1001/buildkit-default/buildkitd.sock
+      CONTAINERD_SNAPSHOTTER: native
 
     steps:
       # 1. GitHub 리포지토리 소스 체크아웃
