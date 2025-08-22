@@ -10,7 +10,7 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build-and-release:
+  plani-slack-bot-release:
     if: contains(toJSON(github.event.commits), '[Release]:')
     runs-on: [ self-hosted ]
 
