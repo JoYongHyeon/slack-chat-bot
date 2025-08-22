@@ -7,4 +7,4 @@ resources:
 images:
   - name: harbor.plani.co.kr/plani/slack-bot
     # CI 가 이 부분만 최신 태그로 교체 후 커밋
-    newTag: "0.0.0"
+    newTag: "1.0.0"
