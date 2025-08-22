@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: plani-slack-bot
-  namespace: plani-slack-bot-dev
+  namespace: plani-slack-bot
 spec:
   replicas: 1
   selector:
