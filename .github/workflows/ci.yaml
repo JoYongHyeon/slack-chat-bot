@@ -65,7 +65,7 @@ jobs:
 
 
       # 6. 컨테이너 이미지 빌드
-      - name: Build & Push Image
+      - name: Build Image
         env:
           VERSION: ${{ env.VERSION }}
         run: |
@@ -73,7 +73,7 @@ jobs:
           nerdctl build -t $IMAGE .
 
       # 7. 컨테이너 이미지 푸시
-      - name: 컨테이너 이미지 푸시
+      - name: Push Image
         working-directory: plani-slack-bot
         env:
           VERSION: ${{ env.VERSION }}
