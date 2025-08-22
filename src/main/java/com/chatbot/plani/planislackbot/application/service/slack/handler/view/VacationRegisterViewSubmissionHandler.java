@@ -36,10 +36,5 @@ public class VacationRegisterViewSubmissionHandler implements NotionViewSubmissi
         Map<String, String> formData = SlackInteractionUtil.extractFormData(dto);
         vacationCreatePort.vacationCreate(getCallbackId(), formData);
 
-        // 2. 값 검증
-//        if (formData.values().stream().anyMatch(v -> v == null || v.isBlank())) {
-//            slackSendPort.sendText(channel, "❌ 모든 항목은 필수입니다. 다시 입력해주세요.");
-//            return;
-//        }
     }
 }
