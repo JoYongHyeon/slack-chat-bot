@@ -15,8 +15,7 @@ jobs:
     runs-on: [ self-hosted ]
 
     env:
-      HARBOR_PROJECT:  plani
-      IMAGE_REPO:      slack-bot
+      HARBOR_PROJECT:  plani-slack-bot
       # 아래는 Harbor 로그인용 계정/비밀번호/레지스트리 도메인 (GitHub Secrets 에서 가져옴)
       HARBOR_USERNAME: ${{ secrets.HARBOR_USERNAME }}
       HARBOR_PASSWORD: ${{ secrets.HARBOR_PASSWORD }}
@@ -70,7 +69,7 @@ jobs:
         env:
           VERSION: ${{ env.VERSION }}
         run: |
-          IMAGE="$HARBOR_REGISTRY/$HARBOR_PROJECT/$IMAGE_REPO"
+          IMAGE="$HARBOR_REGISTRY/$HARBOR_PROJECT"
           nerdctl build -f Dockerfile \
             -t $IMAGE:$VERSION .
           nerdctl push $IMAGE:$VERSION
