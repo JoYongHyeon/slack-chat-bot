@@ -21,7 +21,7 @@ jobs:
       HARBOR_PASSWORD: ${{ secrets.HARBOR_PASSWORD }}
       HARBOR_REGISTRY: ${{ secrets.HARBOR_REGISTRY }}
       # rootless nerdctl 실행 환경 변수
-#      XDG_RUNTIME_DIR: /run/user/1001
+      XDG_RUNTIME_DIR: /run/user/1001
 
     steps:
       # 1. GitHub 리포지토리 소스 체크아웃
