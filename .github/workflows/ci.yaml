@@ -64,7 +64,7 @@ jobs:
           echo "version=$VERSION" >> $GITHUB_OUTPUT
 
 
-      # 6. 컨테이너 이미지 빌드!
+      # 6. 컨테이너 이미지 빌드
       - name: Build Image
         env:
           VERSION: ${{ env.VERSION }}
